@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!-- Template for customer -->
+    <definition name="customer-definition" template="/WEB-INF/public/layout/template.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/public/fragments/header.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/public/fragments/footer.jsp"/>
+    </definition>
+
+    <definition name="home" extends="customer-definition">
+        <put-attribute name="title" value="Search Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/home.jsp"/>
+    </definition>
+
+    <definition name="rooms" extends="customer-definition">
+        <put-attribute name="title" value="Search Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/rooms.jsp"/>
+    </definition>
+
+    <definition name="post" extends="customer-definition">
+        <put-attribute name="title" value="Add Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/post.jsp"/>
+    </definition>
+
+    <definition name="detail" extends="customer-definition">
+        <put-attribute name="title" value="Search Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/detail.jsp"/>
+    </definition>
+
+    <definition name="login" extends="customer-definition">
+        <put-attribute name="title" value="Login"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/login.jsp"/>
+    </definition>
+
+    <definition name="register" extends="customer-definition">
+        <put-attribute name="title" value="Register"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/register.jsp"/>
+    </definition>
+
+    <definition name="customerInfo" extends="customer-definition">
+        <put-attribute name="title" value="Search Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/customerInfo.jsp"/>
+    </definition>
+
+    <definition name="customerPost" extends="customer-definition">
+        <put-attribute name="title" value="Search Room"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/customerPost.jsp"/>
+    </definition>
+
+    <definition name="permissionError" extends="customer-definition">
+        <put-attribute name="title" value="Error"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/permissionError.jsp"/>
+    </definition>
+
+    <definition name="exception" extends="customer-definition">
+        <put-attribute name="title" value="Error"/>
+        <put-attribute name="body" value="/WEB-INF/public/pages/exception.jsp"/>
+    </definition>
+
+    <!-- Template for login page -->
+    <definition name="admin-login-definition" template="/WEB-INF/admin/layout/loginTemplate.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="body" value=""/>
+    </definition>
+
+    <definition name="adminLogin" extends="admin-login-definition">
+        <put-attribute name="title" value="Admin Login"/>
+        <put-attribute name="body" value="/WEB-INF/admin/pages/login.jsp"/>
+    </definition>
+
+    <!-- Template for admin -->
+    <definition name="admin-definition" template="/WEB-INF/admin/layout/template.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/admin/fragments/header.jsp"/>
+        <put-attribute name="menu" value="/WEB-INF/admin/fragments/menu.jsp"/>
+        <put-attribute name="body" value=""/>
+    </definition>
+
+    <definition name="roomTypes" extends="admin-definition">
+        <put-attribute name="title" value="Admin"/>
+        <put-attribute name="body" value="/WEB-INF/admin/pages/roomType.jsp"/>
+    </definition>
+
+    <definition name="approve" extends="admin-definition">
+        <put-attribute name="title" value="Admin"/>
+        <put-attribute name="body" value="/WEB-INF/admin/pages/approve.jsp"/>
+    </definition>
+
+    <definition name="accounts" extends="admin-definition">
+        <put-attribute name="title" value="Admin"/>
+        <put-attribute name="body" value="/WEB-INF/admin/pages/accounts.jsp"/>
+    </definition>
+</tiles-definitions>

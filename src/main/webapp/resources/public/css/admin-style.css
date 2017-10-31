@@ -1,0 +1,97 @@
+#wrapper {
+    padding: 15px 0 0 0;
+    position: relative;
+    border-left: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    margin: auto;
+    text-align: left;
+    -moz-box-shadow: 0 0 8px #dcdcdc;
+    -webkit-box-shadow: 0 0 8px #dcdcdc;
+}
+#leftBar {
+    width: 30%;
+}
+#leftBar ul {
+    width: 30%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+#leftBar ul li {
+    width: 200px;
+    background: #000;
+    padding: 10px 0 10px 10px;
+    margin-top: 8px;
+    margin-left: 9px;
+    margin-bottom: 8px;
+    border: 1px solid #dcdcdc;
+    -moz-border-radius-topleft: 8px;-moz-border-radius-bottomleft: 8px;
+    -webkit-border-top-left-radius: 8px;-webkit-border-bottom-left-radius: 8px;
+    -o-border-top-left-radius: 8px;-o-border-bottom-left-radius: 8px;
+}
+#leftBar ul li a {
+    /*width: 100%;*/
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 65px 10px 20px;
+    -webkit-transition: padding-left 250ms ease-out;
+    -moz-transition: padding-left 250ms ease-out;
+    -o-transition: padding-left 250ms ease-out;
+}
+#leftBar ul li a:hover {
+    padding-left: 30px;
+    text-decoration: none;
+    color: #fff;
+    text-shadow: 1px 1px #496d2a;
+}
+table.data {
+    border: 1px solid #dcdcdc;
+    margin: 10px 0 20px 0;
+    width: 97%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+th.data {
+    padding: 8px 4px 8px 4px;
+    border: 1px solid #dcdcdc;
+    background: url(/resources/mos-css/img/green.jpg) repeat left center;
+    text-shadow: 1px 0px #003362;
+    color: #fff
+}
+td.data {
+    padding: 4px;
+    border: 1px solid #dcdcdc;
+    color: #5b5b5b;
+    vertical-align: top;
+}
+tr.data {
+    background: #fff
+}
+tr.data:hover {
+    background: #feffdc;
+}
+tr.data small a {
+    color: #fff;
+}
+tr.data small {
+    color: #fff;
+}
+tr.data:hover small a {
+    color: #527e19;
+}
+tr.data:hover small a:hover {
+    color: #000;
+}
+tr.data:hover small {
+    color: #5b5b5b;
+}
+#rightContent {
+    width: 725px;
+    padding: 5px;
+    float: left;
+    border-left: 0 solid #dcdcdc;
+    text-align: left;
+    background: #fff;
+}
