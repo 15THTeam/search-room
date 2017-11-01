@@ -1,25 +1,26 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <section class="charts">
     <div class="container-fluid">
         <header>
-            <h1 class="h3">Approve rooms</h1>
+            <h1 class="h3"><spring:message code="approve.room.title"/></h1>
         </header>
             <div class="col-lg-6 my-table">
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
-                        <h2 class="h5 display">Room List</h2>
+                        <h2 class="h5 display"><spring:message code="room.list.title"/></h2>
                     </div>
                     <div class="card-block">
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Customer</th>
-                                <th>Updated at</th>
-                                <th>Is approved</th>
-                                <th>Detail</th>
-                                <th>Delete</th>
+                                <th><spring:message code="label.id"/></th>
+                                <th><spring:message code="label.customer"/></th>
+                                <th><spring:message code="label.updated.at"/></th>
+                                <th><spring:message code="label.is.approve"/></th>
+                                <th><spring:message code="label.detail"/></th>
+                                <th><spring:message code="label.delete"/></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -40,9 +41,16 @@
                                             </a>
                                         </c:if>
                                     </td>
-                                    <td><a href="<c:url value="/detail?post-id=${post.id}"/>" target="_blank">Detail</a></td>
-                                    <td><a href="<c:url value="/delete?post-id=${post.id}"/>"
-                                           onclick="return confirm('Are you sure?');">Delete</a>
+                                    <td>
+                                        <a href="<c:url value="/detail?post-id=${post.id}"/>" target="_blank">
+                                            <spring:message code="label.detail"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="<c:url value="/delete?post-id=${post.id}"/>"
+                                           onclick="return confirm('<spring:message code="message.confirm"/>');">
+                                        <spring:message code="label.delete"/>
+                                    </a>
                                     </td>
                                 </tr>
                             </c:forEach>

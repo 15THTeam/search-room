@@ -1,20 +1,23 @@
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Calendar" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="footer">
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <ul class="footer_box">
-                    <h4>Author</h4>
-                    <li><a href="#">Tong Thien Viet Anh</a></li>
-                    <li><a href="#">Truong Thi Anh Dao</a></li>
-                    <li><a href="#">Le Thi Phuong Giao</a></li>
+                    <h4><spring:message code="author.text"/></h4>
+                    <li><a href="#"><spring:message code="author.name1.text"/></a></li>
+                    <li><a href="#"><spring:message code="author.name2.text"/></a></li>
+                    <li><a href="#"><spring:message code="author.name3.text"/></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
                 <ul class="footer_box">
-                    <h4>About</h4>
-                    <li><a href="#">15TH Team</a></li>
-                    <li><a href="#">Faculty of Information Technology</a></li>
-                    <li><a href="#">An Giang University</a></li>
+                    <h4><spring:message code="about.text"/></h4>
+                    <li><a href="#"><spring:message code="about.team.text"/></a></li>
+                    <li><a href="#"><spring:message code="about.faculty.text"/></a></li>
+                    <li><a href="#"><spring:message code="about.school.text"/></a></li>
                 </ul>
             </div>
             <div class="col-md-3">
@@ -32,7 +35,7 @@
         </div>
         <div class="row footer_bottom">
             <div class="copy">
-                <p>Copyright &copy; 2017</p>
+                <p>Copyright &copy; <%= Calendar.getInstance().get(Calendar.YEAR)%></p>
             </div>
         </div>
     </div>

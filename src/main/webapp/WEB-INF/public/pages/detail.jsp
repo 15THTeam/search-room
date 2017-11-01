@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!----details-product-slider--->
 <!-- Include the Etalage files -->
 <link rel="stylesheet" href="<c:url value="/resources/public/css/etalage.css"/>"/>
@@ -94,7 +95,7 @@
 <div class="main">
     <div class="shop_top">
         <div class="container">
-            <h3 class="m_3">Room's Detail</h3>
+            <h3 class="m_3"><spring:message code="room.detail.title"/></h3>
             <div class="row">
                 <div class="col-md-9 single_left">
                     <div class="single_image">
@@ -112,18 +113,18 @@
                         <h3>${postDetail.title}</h3>
                         <p class="m_10">${postDetail.address}</p>
                         <ul class="options">
-                            <h4 class="m_12">Area (m<sup>2</sup>)</h4>
+                            <h4 class="m_12"><spring:message code="label.area"/> (m<sup>2</sup>)</h4>
                             <p class="m_10">${postDetail.area}</p>
                         </ul>
                         <ul class="options">
-                            <h4 class="m_12">Room type</h4>
+                            <h4 class="m_12"><spring:message code="label.room.type"/></h4>
                             <p class="m_10">${postDetail.roomType}</p>
                         </ul>
                         <ul class="add-to-links">
-                            <li>Updated at: <i>${postDetail.createdAt}</i></li>
-                            <li>By: <i>${postDetail.fullName}</i></li>
-                            <li>Email: <i>${postDetail.email}</i></li>
-                            <li>Phone number: <i>${postDetail.phoneNumber}</i></li>
+                            <li><spring:message code="label.updated.at"/>: <i>${postDetail.createdAt}</i></li>
+                            <li><spring:message code="label.by"/>: <i>${postDetail.fullName}</i></li>
+                            <li><spring:message code="label.email"/>: <i>${postDetail.email}</i></li>
+                            <li><spring:message code="label.phone.number"/>: <i>${postDetail.phoneNumber}</i></li>
                         </ul>
                     </div>
                     <div class="clear"></div>
@@ -132,18 +133,18 @@
                     <div class="box-info-product">
                         <p class="price2">
                             <fmt:formatNumber type="number" maxFractionDigits="3" value="${postDetail.price}"/>
-                            VND per month
+                            <spring:message code="label.cost.unit"/>
                         </p>
                     </div>
                 </div>
             </div>
             <div class="desc">
-                <h4>Description</h4>
+                <h4><spring:message code="label.description"/></h4>
                 <p>${postDetail.description}</p>
             </div>
             <div class="row">
-                <h4 class="m_11">Map</h4>
-                <div id="map" style="width: 100%; height: 300px;">Google Map</div>
+                <h4 class="m_11"><spring:message code="map.title"/></h4>
+                <div id="map" style="width: 100%; height: 300px;"><spring:message code="google.map.text"/></div>
             </div>
         </div>
     </div>
