@@ -10,7 +10,7 @@
                     <p><spring:message code="registered.customer.text"/></p>
                     <div class="button1">
                         <a href="<c:url value="/login"/>">
-                            <input type="submit" name="Submit" value="Login">
+                            <input type="submit" name="Submit" value="<spring:message code="button.login"/>">
                         </a>
                     </div>
                     <div class="clear"></div>
@@ -26,7 +26,7 @@
                             <fieldset class="input">
                                 <p id="register-form-username">
                                     <form:label path="username" for="modlgn_username">
-                                        <spring:message code="label.username"/>
+                                        <spring:message code="label.username"/>*
                                     </form:label>
                                     <form:input path="username" id="modlgn_username" class="inputbox" size="18"
                                                 autocomplete="off"/>
@@ -34,25 +34,24 @@
                                 </p>
                                 <p id="register-form-password">
                                     <form:label path="password" for="modlgn_passwd">
-                                        <spring:message code="label.password"/>
+                                        <spring:message code="label.password"/>*
                                     </form:label>
                                     <form:input path="password" id="modlgn_passwd" type="password" class="inputbox"
-                                                size="18"
-                                                autocomplete="off"/>
+                                                size="18" autocomplete="off"/>
                                     <form:errors path="password" cssClass="error"/>
                                 </p>
                                 <p id="register-form-re-password">
                                     <form:label path="confirmPassword"
                                                 for="modlgn_passwd">
-                                        <spring:message code="form.confirm.password.label"/>
+                                        <spring:message code="form.confirm.password.label"/>*
                                     </form:label>
                                     <form:input path="confirmPassword" id="modlgn_passwd" type="password"
                                                 class="inputbox" size="18" autocomplete="off"/>
                                     <form:errors path="confirmPassword" cssClass="error"/>
                                 </p>
                                 <div class="remember">
-                                    <input type="submit" name="Submit" class="button" value="Register"
-                                           style="margin-right: 2px;"/>
+                                    <input type="submit" name="Submit" class="button"
+                                           value="<spring:message code="label.menu.register"/>" style="margin-right: 2px;"/>
                                     <div class="clear"></div>
                                 </div>
                             </fieldset>

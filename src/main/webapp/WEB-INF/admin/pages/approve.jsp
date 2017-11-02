@@ -15,7 +15,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th><spring:message code="label.id"/></th>
+                                <th><spring:message code="label.no"/></th>
                                 <th><spring:message code="label.customer"/></th>
                                 <th><spring:message code="label.updated.at"/></th>
                                 <th><spring:message code="label.is.approve"/></th>
@@ -24,9 +24,10 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <% int count = 0; %>
                             <c:forEach items="${postList}" var="post">
                                 <tr>
-                                    <th scope="row">${post.id}</th>
+                                    <th scope="row"><%= ++count %></th>
                                     <td>${post.fullName}</td>
                                     <td>${post.createdAt}</td>
                                     <td align="center">

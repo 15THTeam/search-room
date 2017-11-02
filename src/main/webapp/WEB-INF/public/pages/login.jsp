@@ -10,7 +10,8 @@
                     <p><spring:message code="new.customer.text"/></p>
                     <div class="button1">
                         <a href="<c:url value="/register"/>">
-                            <input type="submit" name="Submit" value="Create an Account">
+                            <input type="submit" name="Submit"
+                                   value="<spring:message code="button.create.account"/>">
                         </a>
                     </div>
                     <div class="clear"></div>
@@ -35,9 +36,8 @@
                                     <form:label path="password" for="modlgn_passwd">
                                         <spring:message code="label.password"/>
                                     </form:label>
-                                    <form:input path="password" id="modlgn_passwd" type="password" class="inputbox"
-                                                size="18"
-                                                autocomplete="off"/>
+                                    <form:input path="password" id="modlgn_passwd" type="password"
+                                                class="inputbox" size="18" autocomplete="off"/>
                                     <form:errors path="password" cssClass="error"/>
                                 </p>
                                 <div class="remember">
@@ -47,7 +47,8 @@
                                             <spring:message code="label.remember.me"/>
                                         </label>
                                     </p>
-                                    <input type="submit" name="Submit" class="button" value="Login">
+                                    <input type="submit" name="Submit" class="button"
+                                           value="<spring:message code="button.login"/>">
                                     <div class="clear"></div>
                                 </div>
                             </fieldset>

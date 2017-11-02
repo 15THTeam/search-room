@@ -40,9 +40,11 @@
                                         </a>
                                     </li>
                                 </c:if>
-                                <li><a href="#" class="header-menu">Welcome ${LOGGED_IN_USER.username}</a>
-                                    <ul class="sub-icon1 list"
-                                        style="display:flex; flex-direction: column;font-size: 18px;">
+                                <li>
+                                    <a href="#" class="header-menu">
+                                        <spring:message code="label.menu.welcome"/> ${LOGGED_IN_USER.username}
+                                    </a>
+                                    <ul class="sub-icon1 list" style="display:flex; flex-direction: column;font-size: 18px;">
                                         <c:if test="${LOGGED_IN_USER.role == \"CUSTOMER\"}">
                                             <li>
                                                 <a href="<c:url value="/customer-posts?user=${LOGGED_IN_USER.username}"/>" style="color:black;">
@@ -64,8 +66,8 @@
                                 </li>
                             </c:if>
                         </ul>
-                        <script type="text/javascript" src=<c:url
-                                value="/resources/public/js/responsive-nav.js"/>></script>
+                        <script type="text/javascript"
+                                src=<c:url value="/resources/public/js/responsive-nav.js"/>></script>
                     </div>
                     <div class="clear"></div>
                 </div>

@@ -22,6 +22,13 @@
             </div>
             <div class="col-md-3">
                 <ul class="footer_box">
+                    <h4><spring:message code="language.text"/></h4>
+                    <li><a href="?language=vi"><spring:message code="language.vietnamese"/></a></li>
+                    <li><a href="?language=en"><spring:message code="language.english"/></a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="footer_box">
                     <ul class="social">
                         <li class="facebook"><a href="#"><span> </span></a></li>
                         <li class="twitter"><a href="#"><span> </span></a></li>

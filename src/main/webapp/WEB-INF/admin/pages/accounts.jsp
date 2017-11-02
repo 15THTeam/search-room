@@ -26,8 +26,7 @@
                         <% int count = 0; %>
                         <c:forEach items="${accountList}" var="account">
                             <tr>
-                                <th scope="row"><%= ++count %>
-                                </th>
+                                <th scope="row"><%= ++count %></th>
                                 <td>${account.username}</td>
                                 <td>${account.role}</td>
                                 <td>
@@ -36,7 +35,9 @@
                                     </a>
                                 </td>
                                 <td><a href="<c:url value="/admin/delete?username=${account.username}"/>"
-                                       onclick="return confirm('Are you sure?');"><spring:message code="label.delete"/></a>
+                                       onclick="return confirm('<spring:message code="message.confirm"/>');">
+                                        <spring:message code="label.delete"/>
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>

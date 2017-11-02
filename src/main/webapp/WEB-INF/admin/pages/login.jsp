@@ -6,7 +6,7 @@
         <div class="form-outer text-center d-flex align-items-center">
             <div class="form-inner">
                 <div class="logo text-uppercase">
-                    <strong class="text-primary">Admin login</strong>
+                    <strong class="text-primary"><spring:message code="login.title"/></strong>
                 </div>
                 <form:form commandName="account" id="login-form">
                     <div class="form-group">
@@ -21,8 +21,9 @@
                         </form:label>
                         <form:password path="password" id="login-password" name="loginPassword" autocomplete="false" required=""/>
                     </div>
-                    <input type="checkbox" name="remember-me" value="Y"/><spring:message code="label.remember.me"/>
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                    <input type="checkbox" name="remember-me" value="Y"/>
+                    <spring:message code="label.remember.me"/>
+                    <input class="btn btn-primary" type="submit" value="<spring:message code="button.login"/>"/>
                 </form:form>
             </div>
         </div>

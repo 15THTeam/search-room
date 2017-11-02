@@ -12,11 +12,15 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import javax.sql.DataSource;
+import java.util.Locale;
 
 @Configuration
 @EnableWebMvc
@@ -74,6 +78,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver resolver = new CookieLocaleResolver();
+        resolver.setDefaultLocale(Locale.ENGLISH);
+        return resolver;
+    }
+
+    @Bean
     public CookieInterceptor cookieInterceptor() {
         return new CookieInterceptor();
     }
@@ -83,6 +94,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/rooms/update");
         registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/admin");
         registry.addInterceptor(cookieInterceptor()).addPathPatterns("/*");
+
+        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
+        interceptor.setParamName("language");
+        registry.addInterceptor(interceptor);
     }
 
     @Bean

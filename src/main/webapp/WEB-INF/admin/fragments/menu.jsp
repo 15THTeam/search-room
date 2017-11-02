@@ -22,7 +22,7 @@
                     <i class="icon-home"></i><span><spring:message code="label.room.type"/></span></a>
                 </li>
                 <li><a href="<c:url value="/admin/approve"/>">
-                    <i class="icon-form"></i><span><spring:message code="label.approve"/></span></a>
+                    <i class="icon-form"></i><span><spring:message code="approve.room.title"/></span></a>
                 </li>
                 <li><a href="<c:url value="/admin/manage-accounts"/>">
                     <i class="icon-grid"></i><span><spring:message code="label.account"/></span></a>

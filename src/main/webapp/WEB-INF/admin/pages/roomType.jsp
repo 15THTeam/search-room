@@ -26,9 +26,12 @@
                                     <input type="submit" value="Edit" class="mx-sm-3 btn btn-primary"/>
                                 </c:if>
                                 <c:if test="${empty roomType.description}">
-                                    <input type="submit" value="Add" class="mx-sm-3 btn btn-primary"/>
+                                    <input type="submit" value="<spring:message code="button.add"/>"
+                                           class="mx-sm-3 btn btn-primary"/>
                                 </c:if>
-                                <a href="<c:url value="/admin/room-type"/>"><spring:message code="label.cancel"/></a>
+                                <a href="<c:url value="/admin/room-type"/>">
+                                    <spring:message code="label.cancel"/>
+                                </a>
                             </div>
                         </form:form>
                     </div>
@@ -43,16 +46,17 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th><spring:message code="label.id"/></th>
+                                <th><spring:message code="label.no"/></th>
                                 <th><spring:message code="label.description"/></th>
                                 <th><spring:message code="label.edit"/></th>
                                 <th><spring:message code="label.delete"/></th>
                             </tr>
                             </thead>
                             <tbody>
+                            <% int count = 0; %>
                             <c:forEach items="${roomTypeList}" var="roomType">
                                 <tr>
-                                    <th scope="row">${roomType.id}</th>
+                                    <th scope="row"><%= ++count %></th>
                                     <td>${roomType.description}</td>
                                     <td>
                                         <a href="<c:url value="/admin/room-type/edit?id=${roomType.id}"/>">
@@ -60,7 +64,8 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="<c:url value="/admin/room-type/delete?id=${roomType.id}"/>">
+                                        <a href="<c:url value="/admin/room-type/delete?id=${roomType.id}"/>"
+                                           onclick="return confirm('<spring:message code="message.confirm"/>');">
                                             <spring:message code="label.delete"/>
                                         </a>
                                     </td>
