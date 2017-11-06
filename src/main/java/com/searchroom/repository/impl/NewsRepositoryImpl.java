@@ -48,7 +48,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public List<News> getPostForRoomsPage() {
+    public List<News> getPostForRoomsPage(int currentPage, int roomsPerPage) {
         String sql = "select p.post_id, p.is_approved, i.price, i.title, a.address, r.file_name"
                 + " from room_posts p"
                 + " join room_infos i"
@@ -56,12 +56,13 @@ public class NewsRepositoryImpl implements NewsRepository {
                 + " join addresses a"
                 + " on i.address_id = a.address_id"
                 + " join resources r"
-                + " on r.room_info_id = i.info_id";
+                + " on r.room_info_id = i.info_id"
+                + " limit " + ((currentPage - 1) * roomsPerPage) + ", " + roomsPerPage;
         return jdbcTemplate.query(sql, new NewsMapper());
     }
 
     @Override
-    public List<News> getCustomerPosts(int customerId) {
+    public List<News> getCustomerPosts(int customerId, int currentPage, int roomsPerPage) {
         String sql = "select p.post_id, p.is_approved, i.price, i.title, a.address, r.file_name"
                 + " from room_posts p"
                 + " join room_infos i"
@@ -72,7 +73,8 @@ public class NewsRepositoryImpl implements NewsRepository {
                 + " on r.room_info_id = i.info_id"
                 + " join customers c"
                 + " on c.customer_id = p.customer_id"
-                + " where c.customer_id = ?";
+                + " where c.customer_id = ?"
+                + " limit " + ((currentPage - 1) * roomsPerPage) + ", " + roomsPerPage;
         return jdbcTemplate.query(sql, new Object[]{customerId}, new NewsMapper());
     }
 

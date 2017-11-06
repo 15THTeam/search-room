@@ -1219,10 +1219,10 @@ li.youtube a span {
 }
 .new-box, .sale-box {
     position: absolute;
-    top: 23px;
+    top: 26px;
     overflow: hidden;
     height: 38px;
-    min-width: 85px;
+    min-width: 90px;
     text-align: left;
     z-index: 0;
     display: inline-block;
@@ -1238,7 +1238,7 @@ li.youtube a span {
     padding: 9px;
     text-align: center;
     display: block;
-    min-width: 70px;
+    min-width: 90px;
     position: absolute;
     left: 0;
     top: 0;

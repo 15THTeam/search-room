@@ -2,8 +2,10 @@ package com.searchroom.controller;
 
 import com.searchroom.model.entities.Account;
 import com.searchroom.model.entities.Customer;
+import com.searchroom.model.join.News;
 import com.searchroom.repository.CustomerRepository;
 import com.searchroom.repository.NewsRepository;
+import com.searchroom.repository.RoomPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,15 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class CustomerController {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    @Autowired private CustomerRepository customerRepository;
 
-    @Autowired
-    private NewsRepository newsRepository;
+    @Autowired private NewsRepository newsRepository;
+
+    @Autowired private RoomPostRepository roomPostRepository;
 
     @RequestMapping(value = "/customer-info", method = RequestMethod.GET)
     public ModelAndView showInfo(HttpServletRequest request) {
@@ -56,15 +59,21 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/customer-posts")
-    public ModelAndView getCustomerPosts(@RequestParam String user) {
-        ModelAndView mav = new ModelAndView("customerPost");
+    public ModelAndView getCustomerPosts(@RequestParam String user, @RequestParam("page") int pageNumber) {
+        ModelAndView model = new ModelAndView("customerPost");
         if (customerRepository.getCustomerByUsername(user) == null) {
-            return mav;
+            return model;
         }
 
         int customerId = customerRepository.getCustomerByUsername(user).getId();
-        mav.addObject("postList", newsRepository.getCustomerPosts(customerId));
-        return mav;
+        final int ROOMS_PER_PAGE = 8;
+
+        model.addObject("pageAmount",
+                Math.ceil(roomPostRepository.getPostAmountByCustomer(customerId) * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("currentPage", pageNumber);
+        model.addObject("user", user);
+        model.addObject("postList", newsRepository.getCustomerPosts(customerId, pageNumber, ROOMS_PER_PAGE));
+        return model;
     }
 
 }

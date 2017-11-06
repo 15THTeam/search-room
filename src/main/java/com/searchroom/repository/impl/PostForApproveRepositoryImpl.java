@@ -20,11 +20,12 @@ public class PostForApproveRepositoryImpl implements PostForApproveRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<PostForApprove> getAllPost() {
-        String sql = "select p.post_id, p.created_at, c.full_name, p.is_approved "
-                + "from room_posts p "
-                + "join customers c "
-                + "on c.customer_id = p.customer_id";
+    public List<PostForApprove> getAllPost(int currentPage, int postPerPage) {
+        String sql = "select p.post_id, p.created_at, c.full_name, p.is_approved"
+                + " from room_posts p"
+                + " join customers c"
+                + " on c.customer_id = p.customer_id"
+                + " limit " + ((currentPage - 1) * postPerPage) + ", " + postPerPage;
         return jdbcTemplate.query(sql, (ResultSet resultSet, int row) -> {
             int postId = resultSet.getInt("post_id");
             String fullName = resultSet.getString("full_name");

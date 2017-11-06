@@ -122,8 +122,14 @@ public class AdminController {
 
     // Controller for approve room
     @RequestMapping(value = "/approve")
-    public ModelAndView showApprove() {
-        return new ModelAndView("approve", "postList", postForApproveRepository.getAllPost());
+    public ModelAndView showApprove(@RequestParam("page") int pageNumber) {
+        final int ROOMS_PER_PAGE = 10;
+        ModelAndView model = new ModelAndView("approve");
+        model.addObject("pageAmount",
+                Math.ceil(roomPostRepository.getPostAmount() * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("currentPage", pageNumber);
+        model.addObject("postList", postForApproveRepository.getAllPost(pageNumber, ROOMS_PER_PAGE));
+        return model;
     }
 
     @RequestMapping(value = "/do-approve")

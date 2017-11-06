@@ -22,7 +22,7 @@
                             <h3><a href="<c:url value="/detail?post-id=${post.postId}"/>">${post.title}</a></h3>
                             <p>${post.address}</p>
                             <span class="actual">
-                                    <fmt:formatNumber type="number" maxFractionDigits="3" value="${post.price}"/> VND
+                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${post.price}"/> VND
                             </span>
                             <br/>
                             <ul class="buttons">
@@ -37,6 +37,25 @@
                     </div>
                 </c:forEach>
             </div>
+            <ul class="pagination">
+                <li class="${currentPage == 1 ? 'disabled' : ''}">
+                    <a href="<c:url value="/rooms?page=1"/>">&lt;&lt;</a>
+                </li>
+                <li class="${currentPage == 1 ? 'disabled' : ''}">
+                    <a href="<c:url value="/rooms?page=${currentPage - 1}"/>">&lt;</a>
+                </li>
+                <c:forEach var="i" begin="1" end="${pageAmount}">
+                    <li class="${i == currentPage ? 'disabled' : ''}">
+                        <a href="<c:url value="/rooms?page=${i}"/>">${i}</a>
+                    </li>
+                </c:forEach>
+                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                    <a href="<c:url value="/rooms?page=${currentPage + 1}"/>">&gt;</a>
+                </li>
+                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                    <a href="<c:url value="/rooms?page=${pageAmount}"/>">&gt;&gt;</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

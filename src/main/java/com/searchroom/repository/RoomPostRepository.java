@@ -8,5 +8,7 @@ public interface RoomPostRepository {
     void deleteRoomPost(int postId);
     int getInfoId(int postId);
     void approveRoom(int postId, int approve);
+    int getPostAmount();
+    int getPostAmountByCustomer(int customerId);
 
 }

@@ -16,7 +16,7 @@
                         </a>
                         <ul class="icon1 sub-icon1" style="display:flex;">
                             <li>
-                                <a href="<c:url value="/rooms"/>" class="header-menu">
+                                <a href="<c:url value="/rooms?page=1"/>" class="header-menu">
                                     <spring:message code="label.menu.rooms"/>
                                 </a>
                             </li>
@@ -47,7 +47,7 @@
                                     <ul class="sub-icon1 list" style="display:flex; flex-direction: column;font-size: 18px;">
                                         <c:if test="${LOGGED_IN_USER.role == \"CUSTOMER\"}">
                                             <li>
-                                                <a href="<c:url value="/customer-posts?user=${LOGGED_IN_USER.username}"/>" style="color:black;">
+                                                <a href="<c:url value="/customer-posts?user=${LOGGED_IN_USER.username}&page=1"/>" style="color:black;">
                                                     <spring:message code="label.menu.my.post"/>
                                                 </a>
                                             </li>

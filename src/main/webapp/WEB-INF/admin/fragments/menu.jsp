@@ -21,7 +21,7 @@
                 <li><a href="<c:url value="/admin/room-type"/>">
                     <i class="icon-home"></i><span><spring:message code="label.room.type"/></span></a>
                 </li>
-                <li><a href="<c:url value="/admin/approve"/>">
+                <li><a href="<c:url value="/admin/approve?page=1"/>">
                     <i class="icon-form"></i><span><spring:message code="approve.room.title"/></span></a>
                 </li>
                 <li><a href="<c:url value="/admin/manage-accounts"/>">

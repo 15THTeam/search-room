@@ -2,6 +2,7 @@ package com.searchroom.controller;
 
 import com.searchroom.model.entities.*;
 import com.searchroom.model.join.NewPost;
+import com.searchroom.model.join.News;
 import com.searchroom.repository.*;
 import com.searchroom.service.AddressService;
 import com.searchroom.service.RoomService;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/rooms")
@@ -52,8 +55,15 @@ public class RoomController {
     private NewPostRepository newPostRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showRoomsPage() {
-        return new ModelAndView("rooms", "postList", newsRepository.getPostForRoomsPage());
+    public ModelAndView showPagedPost(@RequestParam("page") int pageNumber) {
+        final int ROOMS_PER_PAGE = 8;
+
+        ModelAndView model = new ModelAndView("rooms");
+        model.addObject("pageAmount",
+                Math.ceil(roomPostRepository.getPostAmount() * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("currentPage", pageNumber);
+        model.addObject("postList", newsRepository.getPostForRoomsPage(pageNumber, ROOMS_PER_PAGE));
+        return model;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)

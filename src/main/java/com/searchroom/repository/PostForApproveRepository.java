@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PostForApproveRepository {
 
-    List<PostForApprove> getAllPost();
+    List<PostForApprove> getAllPost(int currentPage, int postPerPage);
 
 }
