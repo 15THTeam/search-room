@@ -12,7 +12,7 @@
                     <div class="slide_content_wrap">
                         <h1 class="title"><spring:message code="banner.title"/></h1>
                         <div class="button">
-                            <a href="<c:url value="/rooms"/>">
+                            <a href="<c:url value="/rooms?page=1"/>">
                                 <spring:message code="label.detail.button"/>
                             </a>
                         </div>
@@ -26,7 +26,7 @@
                     <div class="slide_content_wrap">
                         <h1 class="title"><spring:message code="banner.title"/></h1>
                         <div class="button">
-                            <a href="<c:url value="/rooms"/>">
+                            <a href="<c:url value="/rooms?page=1"/>">
                                 <spring:message code="label.detail.button"/>
                             </a>
                         </div>
