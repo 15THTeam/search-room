@@ -133,9 +133,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/do-approve")
-    public String approveRoom(@RequestParam("id") int id, @RequestParam("approve") int approve) {
+    public String approveRoom(@RequestParam("page") int page, @RequestParam("id") int id,
+                              @RequestParam("approve") int approve) {
         roomPostRepository.approveRoom(id, approve);
-        return "redirect:/admin/approve";
+        return "redirect:/admin/approve?page=" + page;
     }
 
     // Controller for manage accounts

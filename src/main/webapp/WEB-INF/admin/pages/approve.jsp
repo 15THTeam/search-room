@@ -32,12 +32,12 @@
                                 <td>${post.createdAt}</td>
                                 <td align="center">
                                     <c:if test="${post.isApproved() == true}">
-                                        <a href="<c:url value="/admin/do-approve?id=${post.id}&approve=0"/>">
+                                        <a href="<c:url value="/admin/do-approve?page=${currentPage}&id=${post.id}&approve=0"/>">
                                             <img src="<c:url value="/resources/admin/img/check-icon.png"/>"/>
                                         </a>
                                     </c:if>
                                     <c:if test="${post.isApproved() == false}">
-                                        <a href="<c:url value="/admin/do-approve?id=${post.id}&approve=1"/>">
+                                        <a href="<c:url value="/admin/do-approve?page=${currentPage}&id=${post.id}&approve=1"/>">
                                             <img src="<c:url value="/resources/admin/img/uncheck-icon.png"/>"/>
                                         </a>
                                     </c:if>
