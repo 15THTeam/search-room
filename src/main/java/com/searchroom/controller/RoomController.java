@@ -162,8 +162,8 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/delete")
-    public String deleteRoomPost(@RequestParam("post-id") int postId, HttpServletRequest request,
-                                 final RedirectAttributes redirectAttributes) {
+    public String deleteRoomPost(@RequestParam("page") int page, @RequestParam("post-id") int postId,
+                                 HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         int infoId = roomPostRepository.getInfoId(postId);
         int resourceId = resourceRepository.getId(infoId);
         int addressId = roomInfoRepository.getAddressId(infoId);
@@ -177,9 +177,9 @@ public class RoomController {
         redirectAttributes.addFlashAttribute("message", "Deleted post successfully");
 
         if (account.getRole().equals("CUSTOMER")) {
-            return "redirect:/customer-posts?user=" + account.getUsername();
+            return "redirect:/customer-posts?user=" + account.getUsername() + "&page=" + page;
         } else {
-            return "redirect:/admin/approve";
+            return "redirect:/admin/approve?page=" + page;
         }
 
     }

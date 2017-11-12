@@ -37,25 +37,27 @@
                     </div>
                 </c:forEach>
             </div>
-            <ul class="pagination">
-                <li class="${currentPage == 1 ? 'disabled' : ''}">
-                    <a href="<c:url value="/rooms?page=1"/>">&lt;&lt;</a>
-                </li>
-                <li class="${currentPage == 1 ? 'disabled' : ''}">
-                    <a href="<c:url value="/rooms?page=${currentPage - 1}"/>">&lt;</a>
-                </li>
-                <c:forEach var="i" begin="1" end="${pageAmount}">
-                    <li class="${i == currentPage ? 'disabled' : ''}">
-                        <a href="<c:url value="/rooms?page=${i}"/>">${i}</a>
+            <c:if test="${not empty postList}">
+                <ul class="pagination">
+                    <li class="${currentPage == 1 ? 'disabled' : ''}">
+                        <a href="<c:url value="/rooms?page=1"/>">&lt;&lt;</a>
                     </li>
-                </c:forEach>
-                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                    <a href="<c:url value="/rooms?page=${currentPage + 1}"/>">&gt;</a>
-                </li>
-                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                    <a href="<c:url value="/rooms?page=${pageAmount}"/>">&gt;&gt;</a>
-                </li>
-            </ul>
+                    <li class="${currentPage == 1 ? 'disabled' : ''}">
+                        <a href="<c:url value="/rooms?page=${currentPage - 1}"/>">&lt;</a>
+                    </li>
+                    <c:forEach var="i" begin="1" end="${pageAmount}">
+                        <li class="${i == currentPage ? 'disabled' : ''}">
+                            <a href="<c:url value="/rooms?page=${i}"/>">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                        <a href="<c:url value="/rooms?page=${currentPage + 1}"/>">&gt;</a>
+                    </li>
+                    <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                        <a href="<c:url value="/rooms?page=${pageAmount}"/>">&gt;&gt;</a>
+                    </li>
+                </ul>
+            </c:if>
         </div>
     </div>
 </div>

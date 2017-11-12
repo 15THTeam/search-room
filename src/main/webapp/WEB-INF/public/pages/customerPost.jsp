@@ -44,7 +44,7 @@
                                                 </a>
                                             </li>
                                             <li class="shop_btn">
-                                                <a href="<c:url value="/rooms/delete?post-id=${post.postId}"/>">
+                                                <a href="<c:url value="/rooms/delete?page=${currentPage}&post-id=${post.postId}"/>">
                                                     <spring:message code="label.delete"/>
                                                 </a>
                                             </li>
@@ -57,25 +57,27 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <ul class="pagination">
-                <li class="${currentPage == 1 ? 'disabled' : ''}">
-                    <a href="<c:url value="/customer-posts?user=${user}&page=1"/>">&lt;&lt;</a>
-                </li>
-                <li class="${currentPage == 1 ? 'disabled' : ''}">
-                    <a href="<c:url value="/customer-posts?user=${user}&page=${currentPage - 1}"/>">&lt;</a>
-                </li>
-                <c:forEach var="i" begin="1" end="${pageAmount}">
-                    <li class="${i == currentPage ? 'disabled' : ''}">
-                        <a href="<c:url value="/customer-posts?user=${user}&page=${i}"/>">${i}</a>
+            <c:if test="${not empty postList}">
+                <ul class="pagination">
+                    <li class="${currentPage == 1 ? 'disabled' : ''}">
+                        <a href="<c:url value="/customer-posts?user=${user}&page=1"/>">&lt;&lt;</a>
                     </li>
-                </c:forEach>
-                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                    <a href="<c:url value="/customer-posts?user=${user}&page=${currentPage + 1}"/>">&gt;</a>
-                </li>
-                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                    <a href="<c:url value="/customer-posts?user=${user}&page=${pageAmount}"/>">&gt;&gt;</a>
-                </li>
-            </ul>
+                    <li class="${currentPage == 1 ? 'disabled' : ''}">
+                        <a href="<c:url value="/customer-posts?user=${user}&page=${currentPage - 1}"/>">&lt;</a>
+                    </li>
+                    <c:forEach var="i" begin="1" end="${pageAmount}">
+                        <li class="${i == currentPage ? 'disabled' : ''}">
+                            <a href="<c:url value="/customer-posts?user=${user}&page=${i}"/>">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                        <a href="<c:url value="/customer-posts?user=${user}&page=${currentPage + 1}"/>">&gt;</a>
+                    </li>
+                    <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                        <a href="<c:url value="/customer-posts?user=${user}&page=${pageAmount}"/>">&gt;&gt;</a>
+                    </li>
+                </ul>
+            </c:if>
         </div>
     </div>
 </div>

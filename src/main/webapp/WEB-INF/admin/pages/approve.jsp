@@ -24,10 +24,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <% int count = 0; %>
+                        <c:set var="currentPage" value="${currentPage}"/>
+                        <%
+                            int count = (int)pageContext.getAttribute("currentPage");
+                            count = (count - 1) * 10 + 1;
+                        %>
                         <c:forEach items="${postList}" var="post">
                             <tr>
-                                <th scope="row"><%= ++count %></th>
+                                <th scope="row"><%= count++ %></th>
                                 <td>${post.fullName}</td>
                                 <td>${post.createdAt}</td>
                                 <td align="center">
@@ -48,7 +52,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="<c:url value="/delete?post-id=${post.id}"/>"
+                                    <a href="<c:url value="/rooms/delete?page=${currentPage}&post-id=${post.id}"/>"
                                        onclick="return confirm('<spring:message code="message.confirm"/>');">
                                         <spring:message code="label.delete"/>
                                     </a>
@@ -60,24 +64,26 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination">
-            <li class="${currentPage == 1 ? 'disabled' : ''}">
-                <a href="<c:url value="/admin/approve?page=1"/>">&lt;&lt;</a>
-            </li>
-            <li class="${currentPage == 1 ? 'disabled' : ''}">
-                <a href="<c:url value="/admin/approve?page=${currentPage - 1}"/>">&lt;</a>
-            </li>
-            <c:forEach var="i" begin="1" end="${pageAmount}">
-                <li class="${i == currentPage ? 'disabled' : ''}">
-                    <a href="<c:url value="/admin/approve?page=${i}"/>">${i}</a>
+        <c:if test="${not empty postList}">
+            <ul class="pagination">
+                <li class="${currentPage == 1 ? 'disabled' : ''}">
+                    <a href="<c:url value="/admin/approve?page=1"/>">&lt;&lt;</a>
                 </li>
-            </c:forEach>
-            <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                <a href="<c:url value="/admin/approve?page=${currentPage + 1}"/>">&gt;</a>
-            </li>
-            <li class="${currentPage == pageAmount ? 'disabled' : ''}">
-                <a href="<c:url value="/admin/approve?page=${pageAmount}"/>">&gt;&gt;</a>
-            </li>
-        </ul>
+                <li class="${currentPage == 1 ? 'disabled' : ''}">
+                    <a href="<c:url value="/admin/approve?page=${currentPage - 1}"/>">&lt;</a>
+                </li>
+                <c:forEach var="i" begin="1" end="${pageAmount}">
+                    <li class="${i == currentPage ? 'disabled' : ''}">
+                        <a href="<c:url value="/admin/approve?page=${i}"/>">${i}</a>
+                    </li>
+                </c:forEach>
+                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                    <a href="<c:url value="/admin/approve?page=${currentPage + 1}"/>">&gt;</a>
+                </li>
+                <li class="${currentPage == pageAmount ? 'disabled' : ''}">
+                    <a href="<c:url value="/admin/approve?page=${pageAmount}"/>">&gt;&gt;</a>
+                </li>
+            </ul>
+        </c:if>
     </div>
 </section>
