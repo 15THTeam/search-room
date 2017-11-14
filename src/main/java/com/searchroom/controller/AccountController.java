@@ -1,5 +1,6 @@
 package com.searchroom.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.searchroom.model.entities.Account;
 import com.searchroom.repository.AccountRepository;
 import com.searchroom.service.AccountService;
@@ -13,6 +14,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Map;
 
 @Controller
 public class AccountController {
@@ -28,17 +31,16 @@ public class AccountController {
         return new ModelAndView("register", "account", new Account());
     }
 
+    @RequestMapping(value = "/check-username-duplicate", method = RequestMethod.GET)
+    public @ResponseBody String checkUsernameDuplicate(@RequestParam("username") String username) {
+        return accountRepository.getAccountByUsername(username) == null ? "OK" : "duplicate";
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView registerSubmit(@Valid @ModelAttribute("account")Account account, BindingResult result) {
         accountService.validate(account, result);
         if (result.hasErrors()) {
             return new ModelAndView("register");
-        }
-
-        Account alreadyAccount = accountRepository.getAccountByUsername(account.getUsername());
-        if (alreadyAccount != null) {
-            return new ModelAndView("register",
-                    "message", "This account is already existed, please choose another name");
         }
 
         account.setPassword(accountService.md5Hash(account.getPassword()));

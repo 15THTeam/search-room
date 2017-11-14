@@ -22,7 +22,6 @@
         }
     </script>
     <script src="<c:url value="/resources/public/js/jquery.min.js"/>"></script>
-    <!--<script src="js/jquery.easydropdown.js"></script>-->
     <!--start slider -->
     <link rel="stylesheet" href="<c:url value="/resources/public/css/fwslider.css"/>" media="all">
     <script src="<c:url value="/resources/public/js/jquery-ui.min.js"/>"></script>
