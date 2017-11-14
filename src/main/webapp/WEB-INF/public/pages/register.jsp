@@ -31,27 +31,23 @@
                                     </form:label>
                                         <form:input path="username" id="modlgn_username" class="inputbox" size="18"
                                                     autocomplete="off" onblur="checkDuplicateUsername();"/>
-                                        <%--<form:errors path="username" cssClass="error"/>--%>
-                                <div id="user-name-error" class="error"></div>
+                                    <div id="user-name-error" class="error"></div>
                                 </p>
                                 <p id="register-form-password">
                                     <form:label path="password" for="modlgn_passwd">
                                         <spring:message code="label.password"/>*
                                     </form:label>
-                                        <form:input path="password" id="modlgn_passwd" type="password" class="inputbox"
-                                                    size="18" autocomplete="off"/>
-                                        <%--<form:errors path="password" cssClass="error"/>--%>
-                                <div id="password-error" class="error"></div>
+                                        <form:input path="password" id="modlgn_passwd" type="password"
+                                                    class="inputbox" size="18" autocomplete="off"/>
+                                    <div id="password-error" class="error"></div>
                                 </p>
                                 <p id="register-form-re-password">
-                                    <form:label path="confirmPassword"
-                                                for="modlgn_passwd">
+                                    <label for="modlgn_passwd">
                                         <spring:message code="form.confirm.password.label"/>*
-                                    </form:label>
-                                        <form:input path="confirmPassword" id="modlgn_confirm_passwd" type="password"
+                                    </label>
+                                        <input id="modlgn_confirm_passwd" type="password"
                                                     class="inputbox" size="18" autocomplete="off"/>
-                                        <%--<form:errors path="confirmPassword" cssClass="error"/>--%>
-                                <div id="confirm-pass-error" class="error"></div>
+                                    <div id="confirm-pass-error" class="error"></div>
                                 </p>
                                 <div class="remember">
                                     <input type="submit" name="Submit" class="button"

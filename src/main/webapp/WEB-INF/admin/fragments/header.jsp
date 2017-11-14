@@ -14,7 +14,7 @@
                 </div>
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                     <li class="nav-item">
-                        <a href="<c:url value="/logout"/>" class="nav-link logout"
+                        <a href="<c:url value="/logout"/>" class="nav-link logout">
                            <spring:message code="label.menu.logout"/>
                             <i class="fa fa-sign-out"></i>
                         </a>

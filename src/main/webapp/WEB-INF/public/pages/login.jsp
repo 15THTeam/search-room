@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <div class="main">
     <div class="shop_top">
         <div class="container">
@@ -22,7 +23,7 @@
                     <h4 class="title"><spring:message code="account.title"/></h4>
                     <p style="color: red;">${message}</p>
                     <div id="loginbox" class="loginbox">
-                        <form:form commandName="account" name="login" id="login-form">
+                        <form:form commandName="account" name="login" id="login-form" onsubmit="return validateForm();">
                             <fieldset class="input">
                                 <p id="login-form-username">
                                     <form:label path="username" for="modlgn_username">
@@ -30,7 +31,8 @@
                                     </form:label>
                                     <form:input path="username" id="modlgn_username" class="inputbox" size="18"
                                                 autocomplete="off"/>
-                                    <form:errors path="username" cssClass="error"/>
+                                    <%--<form:errors path="username" cssClass="error"/>--%>
+                                    <div id="user-name-error" class="error"></div>
                                 </p>
                                 <p id="login-form-password">
                                     <form:label path="password" for="modlgn_passwd">
@@ -38,7 +40,8 @@
                                     </form:label>
                                     <form:input path="password" id="modlgn_passwd" type="password"
                                                 class="inputbox" size="18" autocomplete="off"/>
-                                    <form:errors path="password" cssClass="error"/>
+                                    <%--<form:errors path="password" cssClass="error"/>--%>
+                                    <div id="password-error" class="error"></div>
                                 </p>
                                 <div class="remember">
                                     <p id="login-form-remember">
@@ -60,3 +63,25 @@
         </div>
     </div>
 </div>
+
+<<script type="text/javascript">
+function validateForm() {
+    let isValid = false;
+
+    if ($("#modlgn_username").val() === '') {
+        $("#user-name-error").html('Username is required');
+    } else {
+        isValid = true;
+    }
+
+    if ($("#modlgn_passwd").val() === '') {
+        $("#password-error").html('Password is required');
+        isValid = false;
+    } else {
+        $("#password-error").html('');
+        isValid = true;
+    }
+
+    return isValid;
+}
+</script>

@@ -1,17 +1,9 @@
 package com.searchroom.model.entities;
 
-import javax.validation.constraints.NotEmpty;
-
 public class Account {
 
-    @NotEmpty
     private String username;
-
-    @NotEmpty
     private String password;
-
-    private String confirmPassword;
-
     private String role;
 
     public Account() {
@@ -36,14 +28,6 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getRole() {

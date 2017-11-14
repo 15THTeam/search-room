@@ -92,7 +92,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthenticationInterceptor()).addPathPatterns("/rooms/update");
-        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/admin");
+        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/admin/*").excludePathPatterns("/admin/login");
         registry.addInterceptor(cookieInterceptor()).addPathPatterns("/*");
 
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();

@@ -1,21 +1,16 @@
 package com.searchroom.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.searchroom.model.entities.Account;
 import com.searchroom.repository.AccountRepository;
 import com.searchroom.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.Collections;
-import java.util.Map;
 
 @Controller
 public class AccountController {
@@ -37,12 +32,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView registerSubmit(@Valid @ModelAttribute("account")Account account, BindingResult result) {
-        accountService.validate(account, result);
-        if (result.hasErrors()) {
-            return new ModelAndView("register");
-        }
-
+    public ModelAndView registerSubmit(@ModelAttribute("account")Account account) {
         account.setPassword(accountService.md5Hash(account.getPassword()));
         account.setRole("CUSTOMER");
         accountRepository.addAccount(account);
@@ -58,12 +48,8 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(@Valid @ModelAttribute("account")Account account,
-                                    BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        if (result.hasErrors()) {
-            return new ModelAndView("login");
-        }
-
+    public ModelAndView loginSubmit(@ModelAttribute("account")Account account,
+                                    HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model;
         String hashedPassword = accountService.md5Hash(account.getPassword());
         account.setPassword(hashedPassword);
