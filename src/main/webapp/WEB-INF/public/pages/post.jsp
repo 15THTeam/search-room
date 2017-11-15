@@ -8,7 +8,9 @@
             <c:choose>
                 <c:when test="${not empty cusInfoMess}">
                     <h3 style="color: #de6507; text-align: center;">${cusInfoMess}<br/>
-                        Click <a href="<c:url value="/customer-info"/>">here</a> to complete your information</h3>
+                        <spring:message code="label.click"/>
+                        <a href="<c:url value="/customer-info"/>"><spring:message code="label.here"/> </a>
+                        <spring:message code="label.complete.information"/></h3>
                 </c:when>
                 <c:otherwise>
                     <form:form commandName="post" action="update" enctype="multipart/form-data"
@@ -20,22 +22,39 @@
                             <div>
                                 <span><spring:message code="room.info.title"/><label>*</label></span>
                                 <form:input id="title" path="title"/>
-                                <div id="error-title" class="error"></div>
+                                <div id="required-title" class="error">
+                                    <spring:message code="required.title"/>
+                                </div>
+                                <div id="invalid-title-length" class="error">
+                                    <spring:message code="invalid.title.length"/>
+                                </div>
                             </div>
                             <div>
                                 <span><spring:message code="label.address"/><label>*</label></span>
                                 <form:input id="address" path="address"/>
-                                <div id="error-address" class="error"></div>
+                                <div id="required-address" class="error">
+                                    <spring:message code="required.address"/>
+                                </div>
+                                <div id="invalid-address-length" class="error">
+                                    <spring:message code="invalid.address.length"/>
+                                </div>
                             </div>
                             <div>
                                 <span><spring:message code="label.area"/><label>*</label> (m<sup>2</sup>)</span>
                                 <form:input id="area" path="area"/>
-                                <div id="error-area" class="error"></div>
+                                <div id="invalid-area" class="error">
+                                    <spring:message code="invalid.area"/>
+                                </div>
                             </div>
                             <div>
                                 <span><spring:message code="label.cost"/><label>*</label></span>
                                 <form:input id="price" path="price"/>
-                                <div id="error-price" class="error"></div>
+                                <div id="required-price" class="error">
+                                    <spring:message code="required.price"/>
+                                </div>
+                                <div id="invalid-price" class="error">
+                                    <spring:message code="invalid.price"/>
+                                </div>
                             </div>
                             <div>
                                 <span><spring:message code="label.room.type"/><label>*</label></span>
@@ -50,7 +69,9 @@
                             <div>
                                 <span><spring:message code="label.description"/><label>*</label></span>
                                 <form:textarea id="description" path="description" style="width: 96%; resize: none"/>
-                                <div id="error-description" class="error"></div>
+                                <div id="required-description" class="error">
+                                    <spring:message code="required.description"/>
+                                </div>
                             </div>
                             <c:if test="${post.postId == 0}">
                                 <div>
@@ -61,7 +82,7 @@
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
-                        <input type="submit" value="submit">
+                        <input type="submit" value="submit"/>
                     </form:form>
                 </c:otherwise>
             </c:choose>
@@ -70,75 +91,92 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(() => {
+        $('#required-title').hide();
+        $('#required-address').hide();
+        $('#required-price').hide();
+        $('#required-description').hide();
+        $('#invalid-title-length').hide();
+        $('#invalid-address-length').hide();
+        $('#invalid-area').hide();
+        $('#invalid-price').hide();
+    });
+
     function validateForm() {
-        let isValid = false;
+        let isValid;
 
         let txtTitle = $("#title");
         let txtAddress = $("#address");
-        let txtArea = $("#area");
         let txtPrice = $("#price");
         let txtDescription = $("#description");
 
-        let errTitle = $("#error-title");
-        let errAddress = $("#error-address");
-        let errArea = $("#error-area");
-        let errPrice = $("#error-price");
-        let errDescription = $("#error-description");
+        let errTitle = $("#required-title");
+        let errAddress = $("#required-address");
+        let errPrice = $("#required-price");
+        let errDescription = $("#required-description");
+
+        let invalidTitleLength = $('#invalid-title-length');
+        let invalidAddressLength = $('#invalid-address-length');
+        let invalidArea = $('#invalid-area');
+        let invalidPrice = $('#invalid-price');
 
         if (txtTitle.val() === '') {
-            errTitle.html('Title is required');
+            errTitle.show();
             isValid = false;
         } else {
-            if (txtTitle.length() > 100) {
-                errTitle.html('Title must has less than 100 characters');
+            errTitle.hide();
+            if (txtTitle.length > 100) {
+                invalidTitleLength.show();
                 isValid = false;
             } else {
-                errTitle.html('');
+                invalidTitleLength.hide();
                 isValid = true;
             }
         }
 
         if (txtAddress.val() === '') {
-            errAddress.html('Address is required');
+            errAddress.show();
             isValid = false;
         } else {
-            if (txtAddress.length() > 100) {
-                errAddress.html('Address must has less than 100 characters');
+            errAddress.hide();
+            if (txtAddress.length > 100) {
+                invalidAddressLength.show();
                 isValid = false;
             } else {
-                errAddress.html('');
+                invalidAddressLength.hide();
                 isValid = true;
             }
         }
 
-        if (txtArea.val() <= 0) {
-            errArea.html('Area must be greater than zero (0)');
+        if ($("#area").val() <= 0) {
+            invalidArea.show();
             isValid = false;
         } else {
-            errArea.html('');
+            invalidArea.hide();
             isValid = true;
         }
 
         if (txtPrice.val() === '') {
-            errPrice.html('Price is required');
+            errPrice.show();
             isValid = false;
         } else {
+            errPrice.hide();
             if (txtPrice < 0) {
-                errPrice.html('Price must be greater than zero (0)');
+                invalidPrice.show();
                 isValid = false;
             } else {
-                errPrice.html('');
+                invalidPrice.hide();
                 isValid = true;
             }
         }
 
         if (txtDescription.val() === '') {
-            errDescription.html('Description is required');
+            errDescription.show();
             isValid = false;
         } else {
-            errDescription.html('');
-            isValid = true;
+            errDescription.hide();
         }
+
         return isValid;
     }
 </script>

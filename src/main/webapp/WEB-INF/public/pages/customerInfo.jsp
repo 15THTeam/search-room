@@ -13,11 +13,10 @@
                     <div>
                         <span>
                             <form:label path="username">
-                                <spring:message code="label.username"/>*
+                                <spring:message code="label.username"/>
                             </form:label>
                         </span>
                         <form:input path="username" readonly="true"/>
-                        <span class="error"><form:errors path="username"/></span>
                     </div>
                     <div>
                         <span>
@@ -26,7 +25,9 @@
                             </form:label>
                         </span>
                         <form:input id="full-name" path="fullName"/>
-                        <div id="error-full-name" class="error"></div>
+                        <div id="required-full-name" class="error">
+                            <spring:message code="required.full.name"/>
+                        </div>
                     </div>
                     <div>
                         <span>
@@ -35,7 +36,9 @@
                             </form:label>
                         </span>
                         <form:input id="email" path="email"/>
-                        <div id="error-email" class="error"></div>
+                        <div id="invalid-email" class="error">
+                            <spring:message code="invalid.email"/>
+                        </div>
                     </div>
                     <div>
                         <span>
@@ -43,45 +46,63 @@
                                 <spring:message code="label.phone"/>
                             </form:label>
                         </span>
-                        <form:input id="phone" path="phoneNumber"/>
-                        <div id="error-phone" class="error"></div>
+                        <form:input id="phone-number" path="phoneNumber"/>
+                        <div id="invalid-phone-number" class="error">
+                            <spring:message code="invalid.phone.number"/>
+                        </div>
                     </div>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-                <input type="submit" value="Update"/>
+                <input type="submit" value="<spring:message code="button.update"/>"/>
             </form:form>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
+    $(document).ready(() => {
+        $('#required-full-name').hide();
+        $('#invalid-email').hide();
+        $('#invalid-phone-number').hide();
+    });
+
     function validateForm() {
-        let isValid = false;
+        let isValid;
+
+        let txtEmail = $('#email');
+        let txtPhone = $('#phone-number');
+        let requiredFullName = $('#required-full-name');
+
         if ($("#full-name").val() === '') {
-            $("#error-full-name").html('Full name is required');
+            requiredFullName.show();
+            isValid = false;
         } else {
-            $("#error-full-name").html('');
+            requiredFullName.hide();
             isValid = true;
         }
 
-        let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (emailRegex.test($("#email").val())) {
-            $("#error-email").html('');
-            isValid = true;
-        } else {
-            $("#error-email").html("Email is invalid");
-            isValid = false;
+        if (txtEmail.val() !== '') {
+            let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (emailRegex.test(txtEmail.val())) {
+                $("#invalid-email").hide();
+                isValid = true;
+            } else {
+                $("#invalid-email").show();
+                isValid = false;
+            }
         }
 
-        let phoneRegex = /^0(1\d{9}|9\d{8})$/;
-        if (phoneRegex.test($("#phone").val())) {
-            $("#error-phone").html('');
-            isValid = true;
-        } else {
-            $("#error-phone").html('Phone number is invalid');
-            isValid = false;
+        if (txtPhone.val() !== '') {
+            let phoneRegex = /^0(1\d{9}|9\d{8})$/;
+            if (phoneRegex.test(txtPhone.val())) {
+                $("#invalid-phone-number").hide();
+            } else {
+                $("#invalid-phone-number").show();
+                isValid = false;
+            }
         }
+
         return isValid;
     }
 </script>

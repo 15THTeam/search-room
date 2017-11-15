@@ -21,7 +21,7 @@
             <div class="col-md-6">
                 <div class="login-title">
                     <h4 class="title"><spring:message code="new.customer.title"/></h4>
-                    <p style="color: #37ff1a">${notification}</p>
+                    <p style="color: #28ff75">${notification}</p>
                     <div id="loginbox" class="loginbox">
                         <form:form commandName="account" name="register" id="login-form" onsubmit="return validateForm();">
                             <fieldset class="input">
@@ -142,7 +142,6 @@
                 isValid = false;
             } else {
                 notMatchedConfirmPass.hide();
-                isValid = true;
             }
         }
 

@@ -64,10 +64,11 @@
 
 <<script type="text/javascript">
 function validateForm() {
-    let isValid = false;
+    let isValid;
 
     if ($("#modlgn_username").val() === '') {
         $("#user-name-error").html('Username is required');
+        isValid = false;
     } else {
         isValid = true;
     }
@@ -77,7 +78,6 @@ function validateForm() {
         isValid = false;
     } else {
         $("#password-error").html('');
-        isValid = true;
     }
 
     return isValid;

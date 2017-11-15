@@ -28,19 +28,19 @@
 <script type="text/javascript"
         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc&sensor=false"></script>
 <script type="text/javascript">
-    var gmap = new google.maps.LatLng(${postDetail.latitude}, ${postDetail.longitude});
-    var marker;
+    let gmap = new google.maps.LatLng(${postDetail.latitude}, ${postDetail.longitude});
+    let marker;
 
     function initialize() {
-        var mapProp = {
+        let mapProp = {
             center: new google.maps.LatLng(${postDetail.latitude}, ${postDetail.longitude}),
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-        var map = new google.maps.Map(document.getElementById("map"), mapProp);
+        let map = new google.maps.Map(document.getElementById("map"), mapProp);
 
-        var styles = [{
+        let styles = [{
             featureType: 'road.arterial',
             elementType: 'all',
             stylers: [
@@ -69,7 +69,7 @@
         }
         ];
 
-        var styledMapType = new google.maps.StyledMapType(styles);
+        let styledMapType = new google.maps.StyledMapType(styles);
         map.mapTypes.set('Styled', styledMapType);
 
         marker = new google.maps.Marker({
@@ -124,7 +124,7 @@
                             <li><spring:message code="label.updated.at"/>: <i>${postDetail.createdAt}</i></li>
                             <li><spring:message code="label.by"/>: <i>${postDetail.fullName}</i></li>
                             <li><spring:message code="label.email"/>: <i>${postDetail.email}</i></li>
-                            <li><spring:message code="label.phone.number"/>: <i>${postDetail.phoneNumber}</i></li>
+                            <li><spring:message code="label.phone"/>: <i>${postDetail.phoneNumber}</i></li>
                         </ul>
                     </div>
                     <div class="clear"></div>
