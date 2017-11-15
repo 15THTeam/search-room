@@ -2,19 +2,15 @@ package com.searchroom.controller;
 
 import com.searchroom.model.entities.Account;
 import com.searchroom.model.entities.Customer;
-import com.searchroom.model.join.News;
 import com.searchroom.repository.CustomerRepository;
 import com.searchroom.repository.NewsRepository;
 import com.searchroom.repository.RoomPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class CustomerController {
@@ -42,13 +38,8 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/customer-info", method = RequestMethod.POST)
-    public ModelAndView addCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result) {
+    public ModelAndView addCustomer(@ModelAttribute("customer") Customer customer) {
         ModelAndView mav = new ModelAndView("customerInfo");
-        if (result.hasErrors()) {
-            mav.addObject("customer", customer);
-            return mav;
-        }
-
         if (customer.getId() == 0) {
             customerRepository.addCustomer(customer);
         } else {

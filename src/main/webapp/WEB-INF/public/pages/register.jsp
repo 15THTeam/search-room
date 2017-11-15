@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="srping" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="main">
     <div class="shop_top">
@@ -22,16 +23,20 @@
                     <h4 class="title"><spring:message code="new.customer.title"/></h4>
                     <p style="color: #37ff1a">${notification}</p>
                     <div id="loginbox" class="loginbox">
-                        <form:form commandName="account" name="register" id="login-form"
-                                   onsubmit="return validateForm();">
+                        <form:form commandName="account" name="register" id="login-form" onsubmit="return validateForm();">
                             <fieldset class="input">
                                 <p id="register-form-username">
                                     <form:label path="username" for="modlgn_username">
                                         <spring:message code="label.username"/>*
                                     </form:label>
                                         <form:input path="username" id="modlgn_username" class="inputbox" size="18"
-                                                    autocomplete="off" onblur="checkDuplicateUsername();"/>
-                                    <div id="user-name-error" class="error"></div>
+                                                    autocomplete="off" onblur="checkDuplicateUsername()"/>
+                                    <div id="duplicate-user-name" class="error">
+                                        <spring:message code="duplicate.username"/>
+                                    </div>
+                                    <div id="required-user-name" class="error">
+                                        <spring:message code="required.username"/>
+                                    </div>
                                 </p>
                                 <p id="register-form-password">
                                     <form:label path="password" for="modlgn_passwd">
@@ -39,7 +44,9 @@
                                     </form:label>
                                         <form:input path="password" id="modlgn_passwd" type="password"
                                                     class="inputbox" size="18" autocomplete="off"/>
-                                    <div id="password-error" class="error"></div>
+                                    <div id="required-password" class="error">
+                                        <spring:message code="required.password"/>
+                                    </div>
                                 </p>
                                 <p id="register-form-re-password">
                                     <label for="modlgn_passwd">
@@ -47,7 +54,12 @@
                                     </label>
                                         <input id="modlgn_confirm_passwd" type="password"
                                                     class="inputbox" size="18" autocomplete="off"/>
-                                    <div id="confirm-pass-error" class="error"></div>
+                                    <div id="required-confirm-pass" class="error">
+                                        <spring:message code="required.confirm.password"/>
+                                    </div>
+                                    <div id="not-matched-confirm-pass" class="error">
+                                        <spring:message code="confirm.pass.not.matched"/>
+                                    </div>
                                 </p>
                                 <div class="remember">
                                     <input type="submit" name="Submit" class="button"
@@ -66,53 +78,74 @@
 </div>
 
 <script type="text/javascript">
-function checkDuplicateUsername() {
-    let username = $('#modlgn_username').val();
-    $.get('/check-username-duplicate', {username}, value => {
-        if (value === 'duplicate') {
-            $("#user-name-error").html('This username is already existed, please choose another name');
-            $(':input[type="submit"]').prop('disabled', true);
-        } else {
-            $("#user-name-error").html('');
-            $(':input[type="submit"]').prop('disabled', false);
-        }
+    $(document).ready(() => {
+        $('#duplicate-user-name').hide();
+        $('#required-user-name').hide();
+        $('#required-password').hide();
+        $('#required-confirm-pass').hide();
+        $('#not-matched-confirm-pass').hide();
     });
-}
 
-function validateForm() {
-    let isValid = false;
-    let txtPassword = $("#modlgn_passwd");
-    let txtConfirmPass = $("#modlgn_confirm_passwd");
-    let passwordError = $("#password-error");
-    let confirmPassError = $("#confirm-pass-error");
+    function checkDuplicateUsername() {
+        let username = $('#modlgn_username').val();
+        let duplicateUsername = $('#duplicate-user-name');
+        let errUsername = $('#required-user-name');
+        let inputSubmit = $(':input[type="submit"]');
 
-    if ($("#modlgn_username").val() === '') {
-        $("#user-name-error").html('Username is required');
-    } else {
-        isValid = true;
+        $.get('/check-username-duplicate', {username}, value => {
+            if (value === 'duplicate') {
+                errUsername.hide();
+                duplicateUsername.show();
+                inputSubmit.prop('disabled', true);
+            } else {
+                duplicateUsername.hide();
+                inputSubmit.prop('disabled', false);
+            }
+        });
     }
 
-    if (txtPassword.val() === '') {
-        passwordError.html('Password is required');
-        isValid = false;
-    } else {
-        passwordError.html('');
-        isValid = true;
-    }
+    function validateForm() {
+        let isValid;
 
-    if (txtConfirmPass.val() === '') {
-        confirmPassError.html('Confirm password is required');
-        isValid = false;
-    } else {
-        if (txtPassword.val() !== txtConfirmPass.val()) {
-            confirmPassError.html('Confirm password is not matched');
+        let txtUsername = $('#modlgn_username');
+        let txtPassword = $('#modlgn_passwd');
+        let txtConfirmPass = $('#modlgn_confirm_passwd');
+
+        let requiredUsername = $('#required-user-name');
+        let requiredPassword = $('#required-password');
+        let requiredConfirmPass = $('#required-confirm-pass');
+        let notMatchedConfirmPass = $('#not-matched-confirm-pass');
+
+        if (txtUsername.val() === '') {
+            requiredUsername.show();
             isValid = false;
         } else {
-            confirmPassError.html('');
+            requiredUsername.hide();
             isValid = true;
         }
-    }
 
-    return isValid;
-}
+        if (txtPassword.val() !== '') {
+            requiredPassword.hide();
+            isValid = true;
+        } else {
+            requiredPassword.show();
+            isValid = false;
+        }
+
+        if (txtConfirmPass.val() === '') {
+            requiredConfirmPass.show();
+            isValid = false;
+        } else {
+            requiredConfirmPass.hide();
+            if (txtPassword.val() !== txtConfirmPass.val()) {
+                notMatchedConfirmPass.show();
+                isValid = false;
+            } else {
+                notMatchedConfirmPass.hide();
+                isValid = true;
+            }
+        }
+
+        return isValid;
+    }
 </script>

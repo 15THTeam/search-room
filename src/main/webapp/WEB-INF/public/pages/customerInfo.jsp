@@ -26,7 +26,6 @@
                             </form:label>
                         </span>
                         <form:input id="full-name" path="fullName"/>
-                        <%--<span class="error"><form:errors path="fullName"/></span>--%>
                         <div id="error-full-name" class="error"></div>
                     </div>
                     <div>
@@ -36,7 +35,6 @@
                             </form:label>
                         </span>
                         <form:input id="email" path="email"/>
-                        <%--<span class="error"><form:errors path="email"/></span>--%>
                         <div id="error-email" class="error"></div>
                     </div>
                     <div>
@@ -46,7 +44,6 @@
                             </form:label>
                         </span>
                         <form:input id="phone" path="phoneNumber"/>
-                        <%--<span class="error"><form:errors path="phoneNumber" cssClass="error"/></span>--%>
                         <div id="error-phone" class="error"></div>
                     </div>
                     <div class="clear"></div>

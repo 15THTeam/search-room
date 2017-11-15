@@ -88,21 +88,6 @@ public class RoomController {
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("roomTypeList", roomTypeRepository.getRoomTypeList());
 
-        if ("".equals(newPost.getTitle()) || "".equals(newPost.getAddress()) || "".equals(newPost.getDescription())) {
-            mav.addObject("message", "Please fill all the fields");
-            return mav;
-        }
-
-        if (newPost.getTitle().length() > 100) {
-            mav.addObject("message", "Title must has less than 100 characters");
-            return mav;
-        }
-
-        if (newPost.getAddress().length() > 100) {
-            mav.addObject("message", "Address must has less than 100 characters");
-            return mav;
-        }
-
         Address addressObject;
         try {
             addressObject = addressService.getLatLngByAddress(newPost.getAddress());

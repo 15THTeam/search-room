@@ -1,23 +1,11 @@
 package com.searchroom.model.entities;
 
-import com.searchroom.model.validator.Phone;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-
 public class Customer {
 
     private int id;
-
-    @NotEmpty
     private String fullName;
-
-    @Phone
     private String phoneNumber;
-
-    @Email
     private String email;
-
     private String username;
 
     public Customer() {
