@@ -31,7 +31,6 @@
                                     </form:label>
                                     <form:input path="username" id="modlgn_username" class="inputbox" size="18"
                                                 autocomplete="off"/>
-                                    <%--<form:errors path="username" cssClass="error"/>--%>
                                     <div id="user-name-error" class="error"></div>
                                 </p>
                                 <p id="login-form-password">
@@ -40,7 +39,6 @@
                                     </form:label>
                                     <form:input path="password" id="modlgn_passwd" type="password"
                                                 class="inputbox" size="18" autocomplete="off"/>
-                                    <%--<form:errors path="password" cssClass="error"/>--%>
                                     <div id="password-error" class="error"></div>
                                 </p>
                                 <div class="remember">
