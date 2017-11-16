@@ -9,6 +9,10 @@ public class Account {
     public Account() {
     }
 
+    public Account(String username) {
+        this.username = username;
+    }
+
     public Account(String username, String role) {
         this.username = username;
         this.role = role;

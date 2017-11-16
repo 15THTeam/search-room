@@ -71,8 +71,9 @@ public class AccountController {
                 model = new ModelAndView("redirect:/");
             }
         } else {
-            model = new ModelAndView("login",
-                    "message", "Username or Password is incorrect");
+            model = new ModelAndView("login");
+            model.addObject("account", new Account(account.getUsername()));
+            model.addObject("message", "Username or Password is incorrect");
         }
 
         return model;

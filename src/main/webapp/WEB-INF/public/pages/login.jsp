@@ -31,7 +31,9 @@
                                     </form:label>
                                     <form:input path="username" id="modlgn_username" class="inputbox" size="18"
                                                 autocomplete="off"/>
-                                    <div id="user-name-error" class="error"></div>
+                                    <div id="required-username" class="error">
+                                        <spring:message code="required.username"/>
+                                    </div>
                                 </p>
                                 <p id="login-form-password">
                                     <form:label path="password" for="modlgn_passwd">
@@ -39,7 +41,9 @@
                                     </form:label>
                                     <form:input path="password" id="modlgn_passwd" type="password"
                                                 class="inputbox" size="18" autocomplete="off"/>
-                                    <div id="password-error" class="error"></div>
+                                    <div id="required-password" class="error">
+                                        <spring:message code="required.password"/>
+                                    </div>
                                 </p>
                                 <div class="remember">
                                     <p id="login-form-remember">
@@ -62,24 +66,30 @@
     </div>
 </div>
 
-<<script type="text/javascript">
-function validateForm() {
-    let isValid;
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('#required-username').hide();
+        $('#required-password').hide();
+    });
 
-    if ($("#modlgn_username").val() === '') {
-        $("#user-name-error").html('Username is required');
-        isValid = false;
-    } else {
-        isValid = true;
+    function validateForm() {
+        let isValid;
+
+        if ($("#modlgn_username").val() === '') {
+            $("#required-username").show();
+            isValid = false;
+        } else {
+            $("#required-username").hide();
+            isValid = true;
+        }
+
+        if ($("#modlgn_passwd").val() === '') {
+            $('#required-password').show();
+            isValid = false;
+        } else {
+            $('#required-password').hide();
+        }
+
+        return isValid;
     }
-
-    if ($("#modlgn_passwd").val() === '') {
-        $("#password-error").html('Password is required');
-        isValid = false;
-    } else {
-        $("#password-error").html('');
-    }
-
-    return isValid;
-}
 </script>
