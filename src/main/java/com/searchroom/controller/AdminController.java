@@ -92,12 +92,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/room-type/update", method = RequestMethod.POST)
-    public ModelAndView addRoomType(@Valid @ModelAttribute("roomType")RoomType roomType, BindingResult result) {
-        if (result.hasErrors()) {
-            return new ModelAndView("roomType",
-                    "roomTypeList", roomTypeRepository.getRoomTypeList());
-        }
-
+    public ModelAndView addRoomType(@ModelAttribute("roomType")RoomType roomType) {
         if (roomType.getId() == 0) {
             roomTypeRepository.addRoomType(roomType.getDescription());
         } else {

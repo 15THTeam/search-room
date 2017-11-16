@@ -1,6 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <section class="charts">
     <div class="container-fluid">
         <header>
@@ -13,13 +14,17 @@
                         <h2 class="h5 display"><spring:message code="label.add.type"/></h2>
                     </div>
                     <div class="card-block">
-                        <form:form commandName="roomType" class="form-inline" action="/admin/room-type/update">
+                        <form:form commandName="roomType" class="form-inline" action="/admin/room-type/update"
+                                   onsubmit="return validateForm();">
                             <form:hidden path="id"/>
                             <div class="form-group">
                                 <form:label path="description" for="inlineFormInput" class="sr-only">
                                     <spring:message code="label.name"/>
                                 </form:label>
                                 <form:input path="description" id="inlineFormInput" class="mx-sm-3 form-control"/>
+                                <div id="required-room-type" style="color: red; font-size: small;">
+                                    <spring:message code="required.room.type"/>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <c:if test="${!empty roomType.description}">
@@ -79,3 +84,19 @@
         </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('#required-room-type').hide();
+    });
+
+    function validateForm() {
+        let requiredRoomType = $('#required-room-type');
+        if ($('#inlineFormInput').val() === '') {
+            requiredRoomType.show();
+            return false;
+        }
+        requiredRoomType.hide();
+        return true;
+    }
+</script>

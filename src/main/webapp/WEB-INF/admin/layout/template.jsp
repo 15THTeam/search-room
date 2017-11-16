@@ -27,6 +27,7 @@
     <script src="https://use.fontawesome.com/99347ac47f.js"></script>
     <!-- Font Icons CSS-->
     <link href="https://file.myfontastic.com/da58YPMQ7U5HY8Rb6UxkNf/icons.css" rel="stylesheet">
+    <script src="<c:url value="/resources/admin/js/jquery.min.js"/>"></script>
 </head>
 <body>
     <section id="menu">
