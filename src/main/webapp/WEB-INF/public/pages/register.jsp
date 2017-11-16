@@ -105,8 +105,6 @@
     }
 
     function validateForm() {
-        let isValid;
-
         let txtUsername = $('#modlgn_username');
         let txtPassword = $('#modlgn_passwd');
         let txtConfirmPass = $('#modlgn_confirm_passwd');
@@ -118,33 +116,31 @@
 
         if (txtUsername.val() === '') {
             requiredUsername.show();
-            isValid = false;
+            return false;
         } else {
             requiredUsername.hide();
-            isValid = true;
         }
 
         if (txtPassword.val() !== '') {
             requiredPassword.hide();
-            isValid = true;
         } else {
             requiredPassword.show();
-            isValid = false;
+            return false;
         }
 
         if (txtConfirmPass.val() === '') {
             requiredConfirmPass.show();
-            isValid = false;
+            return false;
         } else {
             requiredConfirmPass.hide();
             if (txtPassword.val() !== txtConfirmPass.val()) {
                 notMatchedConfirmPass.show();
-                isValid = false;
+                return false;
             } else {
                 notMatchedConfirmPass.hide();
             }
         }
 
-        return isValid;
+        return true;
     }
 </script>

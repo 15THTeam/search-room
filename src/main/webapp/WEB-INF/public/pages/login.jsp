@@ -73,23 +73,20 @@
     });
 
     function validateForm() {
-        let isValid;
-
         if ($("#modlgn_username").val() === '') {
             $("#required-username").show();
-            isValid = false;
+            return false;
         } else {
             $("#required-username").hide();
-            isValid = true;
         }
 
         if ($("#modlgn_passwd").val() === '') {
             $('#required-password').show();
-            isValid = false;
+            return false;
         } else {
             $('#required-password').hide();
         }
 
-        return isValid;
+        return true;
     }
 </script>

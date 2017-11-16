@@ -51,7 +51,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void updateCustomer(Customer customer) {
         String sql =  "update customers set full_name = ?, phone_number = ?, email = ? where customer_id = ?";
         jdbcTemplate.update(sql,
-                new Object[] { customer.getUsername(), customer.getPhoneNumber(), customer.getEmail(), customer.getId()});
+                new Object[] { customer.getFullName(), customer.getPhoneNumber(), customer.getEmail(), customer.getId()});
     }
 
 }

@@ -8,7 +8,16 @@
             <form:form commandName="customer" onsubmit="return validateForm();">
                 <div class="register-top-grid">
                     <h3><spring:message code="customer.info.title"/></h3>
-                    <p style="font-weight: bold; color: #ff2723">${notification}</p>
+                    <c:if test="${customer.id == 0}">
+                        <p style="font-weight: bold; color: #ff2723">
+                            <spring:message code="empty.customer.info"/>
+                        </p>
+                    </c:if>
+                    <c:if test="${not empty notification}">
+                        <p style="font-weight: bold; color: #1aff6a">
+                            <spring:message code="update.info.success"/>
+                        </p>
+                    </c:if>
                     <form:hidden path="id"/>
                     <div>
                         <span>
@@ -68,41 +77,37 @@
     });
 
     function validateForm() {
-        let isValid;
-
         let txtEmail = $('#email');
         let txtPhone = $('#phone-number');
         let requiredFullName = $('#required-full-name');
 
-        if ($("#full-name").val() === '') {
+        if ($('#full-name').val() === '') {
             requiredFullName.show();
-            isValid = false;
+            return false;
         } else {
             requiredFullName.hide();
-            isValid = true;
         }
 
         if (txtEmail.val() !== '') {
             let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if (emailRegex.test(txtEmail.val())) {
-                $("#invalid-email").hide();
-                isValid = true;
+                $('#invalid-email').hide();
             } else {
-                $("#invalid-email").show();
-                isValid = false;
+                $('#invalid-email').show();
+                return false;
             }
         }
 
         if (txtPhone.val() !== '') {
             let phoneRegex = /^0(1\d{9}|9\d{8})$/;
             if (phoneRegex.test(txtPhone.val())) {
-                $("#invalid-phone-number").hide();
+                $('#invalid-phone-number').hide();
             } else {
-                $("#invalid-phone-number").show();
-                isValid = false;
+                $('#invalid-phone-number').show();
+                return false;
             }
         }
 
-        return isValid;
+        return true;
     }
 </script>

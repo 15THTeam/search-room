@@ -30,7 +30,6 @@ public class CustomerController {
         if (customer == null) {
             customer = new Customer();
             customer.setUsername(loggedInUser.getUsername());
-            mav.addObject("notification", "Please complete your information to post news");
         }
 
         mav.addObject("customer", customer);
