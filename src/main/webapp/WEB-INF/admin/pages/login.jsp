@@ -8,6 +8,7 @@
                 <div class="logo text-uppercase">
                     <strong class="text-primary"><spring:message code="login.title"/></strong>
                 </div>
+                <p style="color: red;">${message}</p>
                 <form:form commandName="account" id="login-form">
                     <div class="form-group">
                         <form:label path="username" for="login-username" class="label-custom">

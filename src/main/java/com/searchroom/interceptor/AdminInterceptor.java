@@ -18,9 +18,9 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
 
-        if (request.getRequestURI().endsWith("/admin")) {
+        if (request.getRequestURI().contains("/admin")) {
             if (account.getRole().equals("CUSTOMER")) {
-                response.sendRedirect("permissionError");
+                response.sendRedirect("/permissionError");
                 return false;
             }
         }

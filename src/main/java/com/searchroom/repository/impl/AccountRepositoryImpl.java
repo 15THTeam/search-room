@@ -22,22 +22,22 @@ public class AccountRepositoryImpl implements AccountRepository {
         jdbcTemplate.update(sql, new Object[] { account.getUsername(), account.getPassword(), account.getRole() });
     }
 
-    public Account getAccount(Account account) {
-        String sql = "select username, role from accounts where username = ? and password = ?";
-
-        List<Account> result = jdbcTemplate.query(
-                sql,
-                new Object[] { account.getUsername(), account.getPassword() },
-                new AccountMapper());
-
-        if (result.size() == 1) {
-            return result.get(0);
-        }
-        return null;
-    }
+//    public Account getAccount(Account account) {
+//        String sql = "select username, role from accounts where username = ? and password = ?";
+//
+//        List<Account> result = jdbcTemplate.query(
+//                sql,
+//                new Object[] { account.getUsername(), account.getPassword() },
+//                new AccountMapper());
+//
+//        if (result.size() == 1) {
+//            return result.get(0);
+//        }
+//        return null;
+//    }
 
     public Account getAccountByUsername(String username) {
-        String sql = "select username, role from accounts where username = ?";
+        String sql = "select username, password, role from accounts where username = ?";
 
         List<Account> result = jdbcTemplate.query(sql, new Object[] { username }, new AccountMapper());
 

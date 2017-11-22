@@ -10,8 +10,9 @@ public class AccountMapper implements RowMapper<Account> {
 
     public Account mapRow(ResultSet resultSet, int i) throws SQLException {
         String username = resultSet.getString("username");
+        String password= resultSet.getString("password");
         String role = resultSet.getString("role");
-        return new Account(username, role);
+        return new Account(username, password, role);
     }
 
 }

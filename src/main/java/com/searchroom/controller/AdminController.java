@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -44,37 +44,25 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(@Valid @ModelAttribute("account") Account account,
-                                    BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView loginSubmit(@Valid @ModelAttribute("account") Account account, BindingResult result,
+                                    HttpServletRequest request, HttpServletResponse response,
+                                    final RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return new ModelAndView("adminLogin");
         }
 
         ModelAndView model;
-        String hashedPassword = accountService.md5Hash(account.getPassword());
-        account.setPassword(hashedPassword);
-        Account loggedInAccount = accountRepository.getAccount(account);
-
-        if (loggedInAccount != null) {
-            request.getSession().setAttribute("LOGGED_IN_USER", loggedInAccount);
-
-            boolean isRemember = "Y".equals(request.getParameter("remember-me"));
-            if (isRemember) {
-                Cookie cookie = new Cookie("LOGGED_IN_USER", loggedInAccount.getUsername());
-                cookie.setMaxAge(24*60*60); // 1 day
-                response.addCookie(cookie);
-            }
-
-            if (loggedInAccount.getRole().equals("CUSTOMER")) {
-                model = new ModelAndView("redirect:/");
-            } else {
-                model = new ModelAndView("redirect:/admin/room-type");
-            }
+        String role = accountService.login(account, request, response);
+        if ("".equals(role)) {
+            redirectAttributes.addFlashAttribute("message", "Username or Password is incorrect");
+            model = new ModelAndView("redirect:/admin/login");
         } else {
-            model = new ModelAndView("login",
-                    "message", "Username or Password is incorrect");
+            if (role.equals("ADMIN")) {
+                model = new ModelAndView("redirect:/admin/room-type");
+            } else {
+                model = new ModelAndView("redirect:/");
+            }
         }
-
         return model;
     }
 

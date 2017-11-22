@@ -33,9 +33,7 @@ public class AccountController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView registerSubmit(@ModelAttribute("account")Account account) {
-        account.setPassword(accountService.md5Hash(account.getPassword()));
-        account.setRole("CUSTOMER");
-        accountRepository.addAccount(account);
+        accountService.saveAccount(account);
         ModelAndView mav = new ModelAndView("register");
         mav.addObject("account", new Account());
         mav.addObject("notification", "Create account successfully");
@@ -51,31 +49,18 @@ public class AccountController {
     public ModelAndView loginSubmit(@ModelAttribute("account")Account account,
                                     HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model;
-        String hashedPassword = accountService.md5Hash(account.getPassword());
-        account.setPassword(hashedPassword);
-        Account loggedInAccount = accountRepository.getAccount(account);
-
-        if (loggedInAccount != null) {
-            request.getSession().setAttribute("LOGGED_IN_USER", loggedInAccount);
-
-            boolean isRemember = "Y".equals(request.getParameter("remember-me"));
-            if (isRemember) {
-                Cookie cookie = new Cookie("LOGGED_IN_USER", loggedInAccount.getUsername());
-                cookie.setMaxAge(24*60*60); // 1 day
-                response.addCookie(cookie);
-            }
-
-            if (loggedInAccount.getRole().equals("CUSTOMER")) {
+        String role = accountService.login(account, request, response);
+        if ("".equals(role)) {
+            model = new ModelAndView("login");
+            model.addObject("account", new Account(account.getUsername()));
+            model.addObject("message", "Username or Password is incorrect");
+        } else {
+            if (role.equals("CUSTOMER")) {
                 model = new ModelAndView("redirect:/customer-info");
             } else {
                 model = new ModelAndView("redirect:/");
             }
-        } else {
-            model = new ModelAndView("login");
-            model.addObject("account", new Account(account.getUsername()));
-            model.addObject("message", "Username or Password is incorrect");
         }
-
         return model;
     }
 
