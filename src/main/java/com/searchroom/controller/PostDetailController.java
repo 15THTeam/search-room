@@ -35,17 +35,4 @@ public class PostDetailController {
         return new ModelAndView("exception", "message", "Room is not exist");
     }
 
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/saveRoom/{postId}")
-    public String saveRoomPost(@PathVariable(value = "postId")int postId, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        List<PostDetail> postDetails = (List<PostDetail>) session.getAttribute("savePosts");
-        if (postDetails == null) {
-            postDetails = new ArrayList<>();
-        }
-        postDetails.add(postDetailRepository.getPostToSave(postId));
-        session.setAttribute("savedPosts", postDetails);
-        return "redirect:/detail/" + postId;
-    }
-
 }

@@ -41,9 +41,4 @@ public class PostDetailRepositoryImpl implements PostDetailRepository {
         return null;
     }
 
-    @Override
-    public PostDetail getPostToSave(int postId) {
-        return null;
-    }
-
 }
