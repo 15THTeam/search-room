@@ -5,6 +5,7 @@ import com.searchroom.model.entities.Customer;
 import com.searchroom.repository.CustomerRepository;
 import com.searchroom.repository.NewsRepository;
 import com.searchroom.repository.RoomPostRepository;
+import com.searchroom.service.PaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class CustomerController {
 
-    @Autowired private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
-    @Autowired private NewsRepository newsRepository;
+    @Autowired
+    private NewsRepository newsRepository;
 
-    @Autowired private RoomPostRepository roomPostRepository;
+    @Autowired
+    private PaginationService paginationService;
 
     @GetMapping("/customer-info")
     public ModelAndView showInfo(HttpServletRequest request) {
@@ -58,8 +62,7 @@ public class CustomerController {
         int customerId = customerRepository.getCustomerByUsername(user).getId();
         final int ROOMS_PER_PAGE = 8;
 
-        model.addObject("pageAmount",
-                Math.ceil(roomPostRepository.getPostAmountByCustomer(customerId) * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("pageAmount", paginationService.calculatePageCustomerPost(customerId, ROOMS_PER_PAGE));
         model.addObject("currentPage", pageNumber);
         model.addObject("user", user);
         model.addObject("postList", newsRepository.getCustomerPosts(customerId, pageNumber, ROOMS_PER_PAGE));
