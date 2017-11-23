@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
@@ -38,12 +35,12 @@ public class AdminController {
     @Autowired
     private RoomPostRepository roomPostRepository;
 
-    @RequestMapping(value = "/login")
+    @GetMapping("/login")
     public ModelAndView showLoginPage() {
         return new ModelAndView("adminLogin", "account", new Account());
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ModelAndView loginSubmit(@Valid @ModelAttribute("account") Account account, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response,
                                     final RedirectAttributes redirectAttributes) {
@@ -66,20 +63,20 @@ public class AdminController {
         return model;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String showAdminPage() {
         return "redirect:/admin/room-type";
     }
 
     // Controllers for add room types
-    @RequestMapping(value = "/room-type", method = RequestMethod.GET)
+    @GetMapping("/room-type")
     public String showRoomTypeList(Model model) {
         model.addAttribute("roomType", new RoomType());
         model.addAttribute("roomTypeList", roomTypeRepository.getRoomTypeList());
         return "roomTypes";
     }
 
-    @RequestMapping(value = "/room-type/update", method = RequestMethod.POST)
+    @PostMapping("/room-type/update")
     public ModelAndView addRoomType(@ModelAttribute("roomType")RoomType roomType) {
         if (roomType.getId() == 0) {
             roomTypeRepository.addRoomType(roomType.getDescription());
@@ -89,7 +86,7 @@ public class AdminController {
         return new ModelAndView("redirect:/admin/room-type");
     }
 
-    @RequestMapping(value = "/room-type/edit")
+    @GetMapping("/room-type/edit")
     public ModelAndView editRoomType(@RequestParam("id") int id) {
         ModelAndView model = new ModelAndView("roomTypes");
         model.addObject("roomType", roomTypeRepository.getRoomTypeById(id));
@@ -97,14 +94,14 @@ public class AdminController {
         return model;
     }
 
-    @RequestMapping(value = "/room-type/delete")
+    @GetMapping("/room-type/delete")
     public String removeRoomType(@RequestParam("id") int id) {
         roomTypeRepository.deleteRoomType(id);
         return "redirect:/admin/room-type";
     }
 
     // Controller for approve room
-    @RequestMapping(value = "/approve")
+    @GetMapping("/approve")
     public ModelAndView showApprove(@RequestParam("page") int pageNumber) {
         final int ROOMS_PER_PAGE = 10;
         ModelAndView model = new ModelAndView("approve");
@@ -115,7 +112,7 @@ public class AdminController {
         return model;
     }
 
-    @RequestMapping(value = "/do-approve")
+    @GetMapping("/do-approve")
     public String approveRoom(@RequestParam("page") int page, @RequestParam("id") int id,
                               @RequestParam("approve") int approve) {
         roomPostRepository.approveRoom(id, approve);
@@ -123,7 +120,7 @@ public class AdminController {
     }
 
     // Controller for manage accounts
-    @RequestMapping(value = "/manage-accounts")
+    @GetMapping("/manage-accounts")
     public ModelAndView showAccounts() {
         ModelAndView model = new ModelAndView("accounts");
         model.addObject("account", new Account());
@@ -131,7 +128,7 @@ public class AdminController {
         return model;
     }
 
-    @RequestMapping(value = "/edit-role")
+    @GetMapping("/edit-role")
     public ModelAndView editRole(@RequestParam("username") String username, @RequestParam("role") String role) {
         if (!"".equals(username) && !"".equals(role)) {
             if ("CUSTOMER".equals(role)) {
@@ -146,7 +143,7 @@ public class AdminController {
                 "accountList", accountRepository.getAllAccounts());
     }
 
-    @RequestMapping(value = "/delete")
+    @GetMapping("/delete")
     public ModelAndView deleteAccount(@RequestParam("username") String username) {
         accountRepository.deleteAccount(username);
         return new ModelAndView("redirect:/admin/manage-accounts",

@@ -9,18 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class PostDetailController {
 
     @Autowired
     private PostDetailRepository postDetailRepository;
 
-    @RequestMapping(value = "/detail")
+    @GetMapping("/detail")
     public ModelAndView showDetailPage(@RequestParam("post-id") int postId) {
         PostDetail detail = postDetailRepository.getPostDetail(postId);
         if (detail == null) {

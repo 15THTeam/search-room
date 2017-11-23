@@ -1,14 +1,12 @@
 package com.searchroom.controller;
 
 import com.searchroom.model.entities.Account;
-import com.searchroom.repository.AccountRepository;
 import com.searchroom.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,9 +16,6 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private AccountRepository accountRepository;
-
     @GetMapping("/register")
     public ModelAndView showRegisterForm() {
         return new ModelAndView("register", "account", new Account());
@@ -28,7 +23,7 @@ public class AccountController {
 
     @GetMapping("/check-username-duplicate")
     public @ResponseBody String checkUsernameDuplicate(@RequestParam("username") String username) {
-        return accountRepository.getAccountByUsername(username) == null ? "OK" : "duplicate";
+        return accountService.checkUsernameDuplicate(username) ? Boolean.TRUE.toString() : Boolean.FALSE.toString();
     }
 
     @PostMapping("/register")
@@ -82,10 +77,7 @@ public class AccountController {
 
     @GetMapping("/logout")
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().invalidate();
-        Cookie cookie = new Cookie("LOGGED_IN_USER", null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+        accountService.logout(request, response);
         return new ModelAndView("redirect:/");
     }
 

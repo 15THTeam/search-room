@@ -21,7 +21,7 @@ public class CustomerController {
 
     @Autowired private RoomPostRepository roomPostRepository;
 
-    @RequestMapping(value = "/customer-info", method = RequestMethod.GET)
+    @GetMapping("/customer-info")
     public ModelAndView showInfo(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("customerInfo");
 
@@ -36,7 +36,7 @@ public class CustomerController {
         return mav;
     }
 
-    @RequestMapping(value = "/customer-info", method = RequestMethod.POST)
+    @PostMapping("/customer-info")
     public ModelAndView addCustomer(@ModelAttribute("customer") Customer customer) {
         ModelAndView mav = new ModelAndView("customerInfo");
         if (customer.getId() == 0) {
@@ -48,7 +48,7 @@ public class CustomerController {
         return mav;
     }
 
-    @RequestMapping(value = "/customer-posts")
+    @GetMapping("/customer-posts")
     public ModelAndView getCustomerPosts(@RequestParam String user, @RequestParam("page") int pageNumber) {
         ModelAndView model = new ModelAndView("customerPost");
         if (customerRepository.getCustomerByUsername(user) == null) {

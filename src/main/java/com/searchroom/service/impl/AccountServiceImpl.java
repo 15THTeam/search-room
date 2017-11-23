@@ -21,6 +21,11 @@ public class AccountServiceImpl implements AccountService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    public boolean checkUsernameDuplicate(String username) {
+        return accountRepository.getAccountByUsername(username) != null;
+    }
+
+    @Override
     public void saveAccount(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setRole("CUSTOMER");
@@ -61,6 +66,14 @@ public class AccountServiceImpl implements AccountService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().invalidate();
+        Cookie cookie = new Cookie("LOGGED_IN_USER", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 
 }

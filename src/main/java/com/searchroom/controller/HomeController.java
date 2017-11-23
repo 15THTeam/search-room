@@ -4,8 +4,8 @@ import com.searchroom.repository.NewsRepository;
 import com.searchroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,12 +20,12 @@ public class HomeController {
     @Autowired
     private RoomService roomService;
 
-    @RequestMapping(value = { "/", "/index", "/home" })
+    @GetMapping("/")
     public ModelAndView home() {
         return new ModelAndView("home", "postNewsList", newsRepository.getNewestPost());
     }
 
-    @RequestMapping(value = "/image/{imageName}")
+    @GetMapping("/image/{imageName}")
     @ResponseBody
     public byte[] getImage(@PathVariable(value = "imageName")String imageName) throws IOException {
         return roomService.getImage(imageName);

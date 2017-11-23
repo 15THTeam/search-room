@@ -93,7 +93,7 @@
         let inputSubmit = $(':input[type="submit"]');
 
         $.get('/check-username-duplicate', {username}, value => {
-            if (value === 'duplicate') {
+            if (value === 'true') {
                 errUsername.hide();
                 duplicateUsername.show();
                 inputSubmit.prop('disabled', true);

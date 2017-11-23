@@ -2,26 +2,20 @@ package com.searchroom.controller;
 
 import com.searchroom.model.entities.*;
 import com.searchroom.model.join.NewPost;
-import com.searchroom.model.join.News;
 import com.searchroom.repository.*;
 import com.searchroom.service.AddressService;
 import com.searchroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
-import java.util.List;
 
 @Controller
-@RequestMapping(value = "/rooms")
+@RequestMapping("/rooms")
 public class RoomController {
 
     @Autowired
@@ -54,7 +48,7 @@ public class RoomController {
     @Autowired
     private NewPostRepository newPostRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ModelAndView showPagedPost(@RequestParam("page") int pageNumber) {
         final int ROOMS_PER_PAGE = 8;
 
@@ -66,7 +60,7 @@ public class RoomController {
         return model;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    @GetMapping("/update")
     public ModelAndView showPostPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("post");
 
@@ -82,7 +76,7 @@ public class RoomController {
         return mav;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PostMapping("/update")
     public ModelAndView addOrUpdate(@ModelAttribute("post") NewPost newPost, HttpServletRequest request)
             throws SQLException {
         ModelAndView mav = new ModelAndView("post");
@@ -138,7 +132,7 @@ public class RoomController {
         return mav;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @GetMapping("/edit")
     public ModelAndView editRoomPost(@RequestParam("post-id") int postId) {
         ModelAndView mav = new ModelAndView("post");
         mav.addObject("post", newPostRepository.getNewPostByPostId(postId));
@@ -146,7 +140,7 @@ public class RoomController {
         return mav;
     }
 
-    @RequestMapping(value = "/delete")
+    @GetMapping("/delete")
     public String deleteRoomPost(@RequestParam("page") int page, @RequestParam("post-id") int postId,
                                  HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         int infoId = roomPostRepository.getInfoId(postId);
@@ -169,7 +163,7 @@ public class RoomController {
 
     }
 
-    @RequestMapping(value = "/search")
+    @GetMapping("/search")
     public ModelAndView search(HttpServletRequest request) {
         if (request.getParameter("search") == null) {
             return new ModelAndView("redirect:/");
