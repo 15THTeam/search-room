@@ -4,6 +4,7 @@ import com.searchroom.model.entities.*;
 import com.searchroom.model.join.NewPost;
 import com.searchroom.repository.*;
 import com.searchroom.service.AddressService;
+import com.searchroom.service.PaginationService;
 import com.searchroom.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,33 +29,23 @@ public class RoomController {
     private RoomTypeRepository roomTypeRepository;
 
     @Autowired
-    private AddressRepository addressRepository;
-
-    @Autowired
-    private RoomInfoRepository roomInfoRepository;
-
-    @Autowired
-    private RoomPostRepository roomPostRepository;
-
-    @Autowired
     private RoomService roomService;
 
     @Autowired
     private NewsRepository newsRepository;
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    private NewPostRepository newPostRepository;
 
     @Autowired
-    private NewPostRepository newPostRepository;
+    private PaginationService paginationService;
 
     @GetMapping
     public ModelAndView showPagedPost(@RequestParam("page") int pageNumber) {
         final int ROOMS_PER_PAGE = 8;
 
         ModelAndView model = new ModelAndView("rooms");
-        model.addObject("pageAmount",
-                Math.ceil(roomPostRepository.getPostAmount() * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("pageAmount", paginationService.calculatePageAmount(ROOMS_PER_PAGE));
         model.addObject("currentPage", pageNumber);
         model.addObject("postList", newsRepository.getPostForRoomsPage(pageNumber, ROOMS_PER_PAGE));
         return model;
@@ -92,43 +83,13 @@ public class RoomController {
         }
 
         if (newPost.getPostId() == 0) {
-            mav = addRoom(mav, newPost, request, addressObject);
+            roomService.addRoom(newPost, request, addressObject);
+            mav.addObject("message", "Add new room succeed");
         } else {
-            mav = updateRoom(mav, newPost, addressObject);
+            roomService.updateRoom(newPost, addressObject);
+            mav.addObject("message", "Update succeed");
         }
 
-        return mav;
-    }
-
-    private ModelAndView addRoom(ModelAndView mav, NewPost newPost, HttpServletRequest request, Address address)
-            throws SQLException {
-        int addressId = addressRepository.addAddress(address);
-
-        RoomInfo roomInfo = new RoomInfo(newPost.getTitle(), newPost.getArea(), newPost.getPrice(),
-                newPost.getDescription(), addressId, newPost.getTypeId());
-        int roomInfoId = roomInfoRepository.addRoomInfo(roomInfo);
-
-        Account loggedInUser = (Account) request.getSession().getAttribute("LOGGED_IN_USER");
-        Customer customer = customerRepository.getCustomerByUsername(loggedInUser.getUsername());
-        RoomPost roomPost = new RoomPost(customer.getId(), roomInfoId);
-        roomPostRepository.addRoomPost(roomPost);
-
-        roomService.uploadFile(request, roomInfoId);
-
-        mav.addObject("message", "Add new room succeed");
-        return mav;
-    }
-
-    private ModelAndView updateRoom(ModelAndView mav, NewPost newPost, Address address) {
-        int roomInfoId = roomPostRepository.getInfoId(newPost.getPostId());
-        RoomInfo info = new RoomInfo(roomInfoId, newPost.getTitle(), newPost.getArea(), newPost.getPrice(),
-                newPost.getDescription(), newPost.getTypeId());
-        roomInfoRepository.updateRoomInfo(info);
-
-        address.setId(roomInfoRepository.getAddressId(roomInfoId));
-        addressRepository.updateAddress(address);
-
-        mav.addObject("message", "Update succeed");
         return mav;
     }
 
@@ -143,14 +104,7 @@ public class RoomController {
     @GetMapping("/delete")
     public String deleteRoomPost(@RequestParam("page") int page, @RequestParam("post-id") int postId,
                                  HttpServletRequest request, final RedirectAttributes redirectAttributes) {
-        int infoId = roomPostRepository.getInfoId(postId);
-        int resourceId = resourceRepository.getId(infoId);
-        int addressId = roomInfoRepository.getAddressId(infoId);
-
-        resourceRepository.deleteResource(resourceId);
-        roomPostRepository.deleteRoomPost(postId);
-        roomInfoRepository.deleteRoomInfo(infoId);
-        addressRepository.deleteAddress(addressId);
+        roomService.deleteRoomPost(postId);
 
         Account account = (Account) request.getSession().getAttribute("LOGGED_IN_USER");
         redirectAttributes.addFlashAttribute("message", "Deleted post successfully");
@@ -160,7 +114,6 @@ public class RoomController {
         } else {
             return "redirect:/admin/approve?page=" + page;
         }
-
     }
 
     @GetMapping("/search")
