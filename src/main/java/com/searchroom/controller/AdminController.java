@@ -43,6 +43,12 @@ public class AdminController {
     @Autowired
     private PaginationService paginationService;
 
+    @Autowired
+    private AccountAndPostRepository accountAndPostRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
         return new ModelAndView("adminLogin", "account", new Account());
@@ -126,24 +132,23 @@ public class AdminController {
     // Controller for manage accounts
     @GetMapping("/manage-accounts")
     public ModelAndView showAccounts() {
-        ModelAndView model = new ModelAndView("accounts");
-        model.addObject("account", new Account());
-        model.addObject("accountList", accountRepository.getAllAccounts());
-        return model;
+        return new ModelAndView("accounts",
+                "accountList", accountAndPostRepository.getAllAccountsAndPosts());
     }
 
     @GetMapping("/edit-role")
     public ModelAndView editRole(@RequestParam("username") String username, @RequestParam("role") String role) {
         adminService.editRole(username, role);
         return new ModelAndView("redirect:/admin/manage-accounts",
-                "accountList", accountRepository.getAllAccounts());
+                "accountList", accountAndPostRepository.getAllAccountsAndPosts());
     }
 
     @GetMapping("/delete")
     public ModelAndView deleteAccount(@RequestParam("username") String username) {
+        customerRepository.delete(username);
         accountRepository.deleteAccount(username);
         return new ModelAndView("redirect:/admin/manage-accounts",
-                "accountList", accountRepository.getAllAccounts());
+                "accountList", accountAndPostRepository.getAllAccountsAndPosts());
     }
 
 }

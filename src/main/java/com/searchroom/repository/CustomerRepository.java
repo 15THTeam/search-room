@@ -7,5 +7,6 @@ public interface CustomerRepository {
     void addCustomer(Customer customer);
     Customer getCustomerByUsername(String username);
     void updateCustomer(Customer customer);
+    void delete(String username);
 
 }

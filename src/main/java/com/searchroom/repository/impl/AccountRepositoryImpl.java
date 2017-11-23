@@ -34,12 +34,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public List<Account> getAllAccounts() {
-        String sql = "select * from accounts";
-        return jdbcTemplate.query(sql, new AccountMapper());
-    }
-
-    @Override
     public void editRole(String username, String role) {
         String sql = "update accounts set role = ? where username = ?";
         jdbcTemplate.update(sql, role, username);

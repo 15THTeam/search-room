@@ -4,12 +4,9 @@ import com.searchroom.model.entities.Customer;
 import com.searchroom.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -21,12 +18,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     public void addCustomer(Customer customer) {
         String sql = "insert into customers (full_name, phone_number, email, username) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, new Object[] {
-                customer.getFullName(),
-                customer.getPhoneNumber(),
-                customer.getEmail(),
-                customer.getUsername()
-        });
+        jdbcTemplate.update(sql, customer.getFullName(), customer.getPhoneNumber(),
+                customer.getEmail(), customer.getUsername());
     }
 
     public Customer getCustomerByUsername(String username) {
@@ -52,6 +45,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         String sql =  "update customers set full_name = ?, phone_number = ?, email = ? where customer_id = ?";
         jdbcTemplate.update(sql,
                 new Object[] { customer.getFullName(), customer.getPhoneNumber(), customer.getEmail(), customer.getId()});
+    }
+
+    @Override
+    public void delete(String username) {
+        String sql = "delete from customers where username = ?";
+        jdbcTemplate.update(sql, username);
     }
 
 }
