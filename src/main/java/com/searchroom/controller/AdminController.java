@@ -4,6 +4,8 @@ import com.searchroom.model.entities.Account;
 import com.searchroom.model.entities.RoomType;
 import com.searchroom.repository.*;
 import com.searchroom.service.AccountService;
+import com.searchroom.service.AdminService;
+import com.searchroom.service.PaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,12 @@ public class AdminController {
 
     @Autowired
     private RoomPostRepository roomPostRepository;
+
+    @Autowired
+    private AdminService adminService;
+
+    @Autowired
+    private PaginationService paginationService;
 
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
@@ -78,11 +86,7 @@ public class AdminController {
 
     @PostMapping("/room-type/update")
     public ModelAndView addRoomType(@ModelAttribute("roomType")RoomType roomType) {
-        if (roomType.getId() == 0) {
-            roomTypeRepository.addRoomType(roomType.getDescription());
-        } else {
-            roomTypeRepository.updateRoomType(roomType);
-        }
+        adminService.updateRoomType(roomType);
         return new ModelAndView("redirect:/admin/room-type");
     }
 
@@ -103,10 +107,10 @@ public class AdminController {
     // Controller for approve room
     @GetMapping("/approve")
     public ModelAndView showApprove(@RequestParam("page") int pageNumber) {
-        final int ROOMS_PER_PAGE = 10;
+        final int ROOMS_PER_PAGE = 8;
+
         ModelAndView model = new ModelAndView("approve");
-        model.addObject("pageAmount",
-                Math.ceil(roomPostRepository.getPostAmount() * 1.0 / ROOMS_PER_PAGE));
+        model.addObject("pageAmount", paginationService.calculatePageAmount(ROOMS_PER_PAGE));
         model.addObject("currentPage", pageNumber);
         model.addObject("postList", postForApproveRepository.getAllPost(pageNumber, ROOMS_PER_PAGE));
         return model;
@@ -130,15 +134,7 @@ public class AdminController {
 
     @GetMapping("/edit-role")
     public ModelAndView editRole(@RequestParam("username") String username, @RequestParam("role") String role) {
-        if (!"".equals(username) && !"".equals(role)) {
-            if ("CUSTOMER".equals(role)) {
-                role = "ADMIN";
-            } else {
-                role = "CUSTOMER";
-            }
-            accountRepository.editRole(username, role);
-        }
-
+        adminService.editRole(username, role);
         return new ModelAndView("redirect:/admin/manage-accounts",
                 "accountList", accountRepository.getAllAccounts());
     }
