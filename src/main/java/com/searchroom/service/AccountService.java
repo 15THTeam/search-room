@@ -11,5 +11,6 @@ public interface AccountService {
 
     // return account's role, return empty string if login fail
     String login(Account account, HttpServletRequest request, HttpServletResponse response);
+    boolean changePassword(HttpServletRequest request);
 
 }

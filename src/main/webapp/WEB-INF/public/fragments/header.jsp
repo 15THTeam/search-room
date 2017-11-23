@@ -58,6 +58,11 @@
                                             </li>
                                         </c:if>
                                         <li>
+                                            <a href="<c:url value="/change-password"/>" style="color:black;">
+                                                <spring:message code="label.menu.change.password"/>
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="<c:url value="/logout"/>" style="color:black;">
                                                 <spring:message code="label.menu.logout"/>
                                             </a>

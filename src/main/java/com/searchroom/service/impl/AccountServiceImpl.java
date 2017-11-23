@@ -38,12 +38,29 @@ public class AccountServiceImpl implements AccountService {
             boolean isRemember = "Y".equals(request.getParameter("remember-me"));
             if (isRemember) {
                 Cookie cookie = new Cookie("LOGGED_IN_USER", loggedInAccount.getUsername());
-                cookie.setMaxAge(24*60*60); // 1 day
+                cookie.setMaxAge(24 * 60 * 60); // 1 day
                 response.addCookie(cookie);
             }
             return loggedInAccount.getRole();
         }
         return "";
+    }
+
+    @Override
+    public boolean changePassword(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        String oldPass = request.getParameter("old-pass");
+        String newPass = request.getParameter("new-pass");
+
+        Account existedAccount = accountRepository.getAccountByUsername(username);
+        if (passwordEncoder.matches(oldPass, existedAccount.getPassword())) {
+            Account newAccount = new Account();
+            newAccount.setUsername(username);
+            newAccount.setPassword(passwordEncoder.encode(newPass));
+            accountRepository.changePassword(newAccount);
+            return true;
+        }
+        return false;
     }
 
 }

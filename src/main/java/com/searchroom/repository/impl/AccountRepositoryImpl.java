@@ -15,26 +15,12 @@ import java.util.List;
 public class AccountRepositoryImpl implements AccountRepository {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public void addAccount(Account account) {
         String sql = "insert into accounts (username, password, role) values (?, ?, ?)";
-        jdbcTemplate.update(sql, new Object[] { account.getUsername(), account.getPassword(), account.getRole() });
+        jdbcTemplate.update(sql, account.getUsername(), account.getPassword(), account.getRole());
     }
-
-//    public Account getAccount(Account account) {
-//        String sql = "select username, role from accounts where username = ? and password = ?";
-//
-//        List<Account> result = jdbcTemplate.query(
-//                sql,
-//                new Object[] { account.getUsername(), account.getPassword() },
-//                new AccountMapper());
-//
-//        if (result.size() == 1) {
-//            return result.get(0);
-//        }
-//        return null;
-//    }
 
     public Account getAccountByUsername(String username) {
         String sql = "select username, password, role from accounts where username = ?";
@@ -56,13 +42,19 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Override
     public void editRole(String username, String role) {
         String sql = "update accounts set role = ? where username = ?";
-        jdbcTemplate.update(sql, new Object[]{role, username});
+        jdbcTemplate.update(sql, role, username);
     }
 
     @Override
     public void deleteAccount(String username) {
         String sql = "delete from accounts where username = ?";
-        jdbcTemplate.update(sql, new Object[]{username});
+        jdbcTemplate.update(sql, username);
+    }
+
+    @Override
+    public void changePassword(Account account) {
+        String sql = "update accounts set password = ? where username = ?";
+        jdbcTemplate.update(sql, account.getPassword(), account.getUsername());
     }
 
 }

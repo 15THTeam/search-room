@@ -21,17 +21,17 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @GetMapping("/register")
     public ModelAndView showRegisterForm() {
         return new ModelAndView("register", "account", new Account());
     }
 
-    @RequestMapping(value = "/check-username-duplicate", method = RequestMethod.GET)
+    @GetMapping("/check-username-duplicate")
     public @ResponseBody String checkUsernameDuplicate(@RequestParam("username") String username) {
         return accountRepository.getAccountByUsername(username) == null ? "OK" : "duplicate";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @PostMapping("/register")
     public ModelAndView registerSubmit(@ModelAttribute("account")Account account) {
         accountService.saveAccount(account);
         ModelAndView mav = new ModelAndView("register");
@@ -40,12 +40,12 @@ public class AccountController {
         return mav;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public ModelAndView showLoginForm() {
         return new ModelAndView("login", "account", new Account());
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ModelAndView loginSubmit(@ModelAttribute("account")Account account,
                                     HttpServletRequest request, HttpServletResponse response) {
         ModelAndView model;
@@ -64,7 +64,23 @@ public class AccountController {
         return model;
     }
 
-    @RequestMapping(value = "/logout")
+    @GetMapping("/change-password")
+    public String changePassword() {
+        return "changePassword";
+    }
+
+    @PostMapping("/change-password")
+    public ModelAndView changePasswordSubmit(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("changePassword");
+        if (accountService.changePassword(request)) {
+            model.addObject("success", "Password has been changed");
+        } else {
+            model.addObject("fail", "Invalid old password");
+        }
+        return model;
+    }
+
+    @GetMapping("/logout")
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
         Cookie cookie = new Cookie("LOGGED_IN_USER", null);
