@@ -66,8 +66,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        return jdbcTemplate;
+        return new JdbcTemplate(dataSource);
     }
 
     @Bean
@@ -92,14 +91,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(cookieInterceptor()).addPathPatterns("/*");
+
         registry.addInterceptor(new AuthenticationInterceptor())
                 .addPathPatterns("/rooms/update", "/customer-info", "/customer-posts", "/change-password");
 
         registry.addInterceptor(new AdminInterceptor())
-                .addPathPatterns("/admin/*")
+                .addPathPatterns("/admin/*", "/rooms/update", "/customer-info", "/customer-posts")
                 .excludePathPatterns("/admin/login");
-
-        registry.addInterceptor(cookieInterceptor()).addPathPatterns("/*");
 
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("language");

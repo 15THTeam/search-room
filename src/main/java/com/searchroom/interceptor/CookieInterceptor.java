@@ -31,7 +31,7 @@ public class CookieInterceptor extends HandlerInterceptorAdapter {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("LOGGED_IN_USER".equals(cookie.getName())) {
+                if ("USERNAME_IN_COOKIE".equals(cookie.getName())) {
                     String loggedInUsername = cookie.getValue();
                     Account account = accountRepository.getAccountByUsername(loggedInUsername);
                     session.setAttribute("LOGGED_IN_USER", account);

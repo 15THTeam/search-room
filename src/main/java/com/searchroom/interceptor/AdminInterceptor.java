@@ -25,6 +25,15 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
             }
         }
 
+        if (request.getRequestURI().contains("/rooms/update") ||
+                request.getRequestURI().contains("/customer-info") ||
+                request.getRequestURI().contains("/customer-posts")) {
+            if (account.getRole().equals("ADMIN")) {
+                response.sendRedirect("/");
+                return false;
+            }
+        }
+
         return true;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -42,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
 
             boolean isRemember = "Y".equals(request.getParameter("remember-me"));
             if (isRemember) {
-                Cookie cookie = new Cookie("LOGGED_IN_USER", loggedInAccount.getUsername());
+                Cookie cookie = new Cookie("USERNAME_IN_COOKIE", loggedInAccount.getUsername());
                 cookie.setMaxAge(24 * 60 * 60); // 1 day
                 response.addCookie(cookie);
             }
@@ -71,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
-        Cookie cookie = new Cookie("LOGGED_IN_USER", null);
+        Cookie cookie = new Cookie("USERNAME_IN_COOKIE", null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
     }

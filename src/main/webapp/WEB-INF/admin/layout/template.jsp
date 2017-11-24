@@ -49,7 +49,7 @@
     <script src="<c:url value="/resources/admin/js/jquery.nicescroll.min.js"/>"></script>
     <script src="<c:url value="/resources/admin/js/jquery.validate.min.js"/>"></script>
     <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>--%>
-    <script src="<c:url value="/resources/admin/js/charts-custom.js"/>"></script>
+    <%--<script src="<c:url value="/resources/admin/js/charts-custom.js"/>"></script>--%>
     <script src="<c:url value="/resources/admin/js/front.js"/>"></script>
 </body>
 </html>
