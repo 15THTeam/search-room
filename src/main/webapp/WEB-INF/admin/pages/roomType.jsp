@@ -27,13 +27,15 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <c:if test="${!empty roomType.description}">
-                                    <input type="submit" value="Edit" class="mx-sm-3 btn btn-primary"/>
-                                </c:if>
-                                <c:if test="${empty roomType.description}">
-                                    <input type="submit" value="<spring:message code="button.add"/>"
-                                           class="mx-sm-3 btn btn-primary"/>
-                                </c:if>
+                                <input type="submit" class="mx-sm-3 btn btn-primary"
+                                       value="<c:choose>
+                                                <c:when test="${!empty roomType.description}">
+                                                    <spring:message code="label.edit"/>
+                                                </c:when>
+                                              <c:otherwise>
+                                                <spring:message code="button.add"/>
+                                              </c:otherwise>
+                                              </c:choose>" />
                                 <a href="<c:url value="/admin/room-type"/>">
                                     <spring:message code="label.cancel"/>
                                 </a>
