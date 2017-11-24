@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -29,7 +28,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void saveAccount(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setRole("CUSTOMER");
         accountRepository.addAccount(account);
     }
 

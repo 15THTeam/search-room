@@ -136,11 +136,18 @@ public class AdminController {
                 "accountList", accountAndPostRepository.getAllAccountsAndPosts());
     }
 
-    @GetMapping("/edit-role")
-    public ModelAndView editRole(@RequestParam("username") String username, @RequestParam("role") String role) {
-        adminService.editRole(username, role);
-        return new ModelAndView("redirect:/admin/manage-accounts",
-                "accountList", accountAndPostRepository.getAllAccountsAndPosts());
+    @PostMapping("/add-admin-account")
+    public String addAdminAccount(HttpServletRequest request, final RedirectAttributes redirectAttributes) {
+        String username = request.getParameter("username");
+        if (accountService.checkUsernameDuplicate(username)) {
+            redirectAttributes.addFlashAttribute("duplicate", "duplicate username");
+        } else {
+            Account newAccount = new Account(username, "admin", "ADMIN");
+            accountService.saveAccount(newAccount);
+            redirectAttributes.addFlashAttribute("success", "add account success");
+        }
+
+        return "redirect:/admin/manage-accounts";
     }
 
     @GetMapping("/delete")

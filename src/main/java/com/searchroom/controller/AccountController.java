@@ -28,6 +28,7 @@ public class AccountController {
 
     @PostMapping("/register")
     public ModelAndView registerSubmit(@ModelAttribute("account")Account account) {
+        account.setRole("CUSTOMER");
         accountService.saveAccount(account);
         ModelAndView mav = new ModelAndView("register");
         mav.addObject("account", new Account());
