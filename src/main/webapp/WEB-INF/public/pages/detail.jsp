@@ -11,12 +11,8 @@
         $('#etalage').etalage({
             thumb_image_width: 300,
             thumb_image_height: 400,
-
             show_hint: true,
-            click_callback: function (image_anchor, instance_id) {
-                alert('Callback example:\nYou clicked on an image with the anchor: "'
-                    + image_anchor + '"\n(in Etalage instance: "' + instance_id + '")');
-            }
+            click_callback: function (image_anchor, instance_id) { }
         });
         // This is for the dropdown list example:
         $('.dropdownlist').change(function () {
@@ -26,7 +22,7 @@
     });
 </script>
 <script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc&sensor=false"></script>
+        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc"></script>
 <script type="text/javascript">
     let gmap = new google.maps.LatLng(${postDetail.latitude}, ${postDetail.longitude});
     let marker;

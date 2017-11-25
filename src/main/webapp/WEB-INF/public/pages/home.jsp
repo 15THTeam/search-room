@@ -2,44 +2,52 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc"></script>
 <div class="banner">
-    <!-- start slider -->
-    <div id="fwslider">
-        <div class="slider_container">
-            <div class="slide">
-                <img src="<c:url value="/resources/public/images/slider1.jpg"/>" class="img-responsive"/>
-                <div class="slide_content">
-                    <div class="slide_content_wrap">
-                        <h1 class="title"><spring:message code="banner.title"/></h1>
-                        <div class="button">
-                            <a href="<c:url value="/rooms?page=1"/>">
-                                <spring:message code="label.detail.button"/>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /Duplicate to create more slides -->
-            <div class="slide">
-                <img src="<c:url value="/resources/public/images/slider2.jpg"/>" class="img-responsive"/>
-                <div class="slide_content">
-                    <div class="slide_content_wrap">
-                        <h1 class="title"><spring:message code="banner.title"/></h1>
-                        <div class="button">
-                            <a href="<c:url value="/rooms?page=1"/>">
-                                <spring:message code="label.detail.button"/>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/slide -->
-        </div>
-        <div class="timers"></div>
-        <div class="slidePrev"><span></span></div>
-        <div class="slideNext"><span></span></div>
-    </div>
-    <!--/slider -->
+    <div id="map" style="width: 100%; height: 100vh;"></div>
+    <script type="text/javascript">
+        $(document).ready(() => {
+            $.get('/get-markers', value => {
+                let locations = [];
+                console.log(value);
+
+                for (let i = 0; i < value.length; ++i) {
+                    locations.push([value[i].title, value[i].latitude, value[i].longitude, value[i].postId]);
+                }
+
+                let map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: new google.maps.LatLng(10.8230989, 106.6296638),
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+
+                let infowindow = new google.maps.InfoWindow();
+
+                let marker, i;
+
+                for (i = 0; i < locations.length; i++) {
+                    marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        map: map
+                    });
+
+                    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+                        return function() {
+                            infowindow.setContent(locations[i][0]);
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            window.open('/detail?post-id=' + locations[i][3], '_blank');
+                        }
+                    })(marker, i));
+                }
+            });
+        });
+    </script>
 </div>
 <div class="features">
     <div class="container">
