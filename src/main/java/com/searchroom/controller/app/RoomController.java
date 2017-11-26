@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/rooms")
@@ -39,6 +40,9 @@ public class RoomController {
 
     @Autowired
     private PaginationService paginationService;
+
+    @Autowired
+    private RoomPostRepository roomPostRepository;
 
     @GetMapping
     public ModelAndView showPagedPost(@RequestParam("page") int pageNumber) {
@@ -104,15 +108,19 @@ public class RoomController {
     @GetMapping("/delete")
     public String deleteRoomPost(@RequestParam("page") int page, @RequestParam("post-id") int postId,
                                  HttpServletRequest request, final RedirectAttributes redirectAttributes) {
-        roomService.deleteRoomPost(postId);
-
         Account account = (Account) request.getSession().getAttribute("LOGGED_IN_USER");
-        redirectAttributes.addFlashAttribute("message", "Deleted post successfully");
-
-        if (account.getRole().equals("CUSTOMER")) {
-            return "redirect:/customer-posts?user=" + account.getUsername() + "&page=" + page;
-        } else {
+        if (account.getRole().equals("ADMIN")) {
+            roomService.deleteRoomPost(postId);
             return "redirect:/admin/approve?page=" + page;
+        } else {
+            List<Integer> postIdList = roomPostRepository.getPostIdByUsername(account.getUsername());
+            if (postIdList.contains(postId)) {
+                roomService.deleteRoomPost(postId);
+                redirectAttributes.addFlashAttribute("message", "Deleted post successfully");
+            } else {
+                return "redirect:/";
+            }
+            return "redirect:/customer-posts?user=" + account.getUsername() + "&page=" + page;
         }
     }
 

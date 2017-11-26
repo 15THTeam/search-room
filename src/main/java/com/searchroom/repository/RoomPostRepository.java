@@ -2,6 +2,8 @@ package com.searchroom.repository;
 
 import com.searchroom.model.entities.RoomPost;
 
+import java.util.List;
+
 public interface RoomPostRepository {
 
     void addRoomPost(RoomPost roomPost);
@@ -10,5 +12,6 @@ public interface RoomPostRepository {
     void approveRoom(int postId, int approve);
     int getPostAmount();
     int getPostAmountByCustomer(int customerId);
+    List<Integer> getPostIdByUsername(String username);
 
 }

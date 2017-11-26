@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 @Transactional
 public class RoomPostRepositoryImpl implements RoomPostRepository {
@@ -47,6 +49,18 @@ public class RoomPostRepositoryImpl implements RoomPostRepository {
     public int getPostAmountByCustomer(int customerId) {
         String sql = "select count(post_id) from room_posts where customer_id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{customerId}, Integer.class);
+    }
+
+    @Override
+    public List<Integer> getPostIdByUsername(String username) {
+        String sql = "select post_id "
+                + "from room_posts r "
+                + "join customers c "
+                + "on c.customer_id = r.customer_id "
+                + "join accounts a "
+                + "on a.username = c.username "
+                + "where a.username = ?";
+        return jdbcTemplate.queryForList(sql, new Object[]{username}, Integer.class);
     }
 
 }

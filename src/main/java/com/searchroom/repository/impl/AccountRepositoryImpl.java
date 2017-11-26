@@ -34,12 +34,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public void editRole(String username, String role) {
-        String sql = "update accounts set role = ? where username = ?";
-        jdbcTemplate.update(sql, role, username);
-    }
-
-    @Override
     public void deleteAccount(String username) {
         String sql = "delete from accounts where username = ?";
         jdbcTemplate.update(sql, username);
