@@ -1,4 +1,4 @@
-package com.searchroom.controller;
+package com.searchroom.controller.app;
 
 import com.searchroom.model.join.PostOnMap;
 import com.searchroom.repository.NewsRepository;

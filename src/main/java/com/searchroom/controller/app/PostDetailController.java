@@ -1,4 +1,4 @@
-package com.searchroom.controller;
+package com.searchroom.controller.app;
 
 import com.searchroom.exception.RoomNotFoundException;
 import com.searchroom.model.join.PostDetail;

@@ -94,7 +94,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(cookieInterceptor()).addPathPatterns("/*");
 
         registry.addInterceptor(new AuthenticationInterceptor())
-                .addPathPatterns("/rooms/update", "/customer-info", "/customer-posts", "/change-password");
+                .addPathPatterns("/rooms/update", "/customer-info", "/customer-posts", "/change-password",
+                        "/rooms/edit", "rooms/delete");
 
         registry.addInterceptor(new AdminInterceptor())
                 .addPathPatterns("/admin/*", "/rooms/update", "/customer-info", "/customer-posts")

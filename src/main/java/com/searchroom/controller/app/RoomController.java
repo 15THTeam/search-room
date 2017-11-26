@@ -1,4 +1,4 @@
-package com.searchroom.controller;
+package com.searchroom.controller.app;
 
 import com.searchroom.model.entities.*;
 import com.searchroom.model.join.NewPost;
