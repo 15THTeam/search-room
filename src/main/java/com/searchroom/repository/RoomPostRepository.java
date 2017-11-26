@@ -7,7 +7,7 @@ import java.util.List;
 public interface RoomPostRepository {
 
     void addRoomPost(RoomPost roomPost);
-    void deleteRoomPost(int postId);
+    void deleteRoomPost(int postId) throws Exception;
     int getInfoId(int postId);
     void approveRoom(int postId, int approve);
     int getPostAmount();

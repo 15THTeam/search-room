@@ -55,7 +55,7 @@ public class RoomController {
         return model;
     }
 
-    @GetMapping("/update")
+    @GetMapping("/add")
     public ModelAndView showPostPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("post");
 
@@ -98,11 +98,20 @@ public class RoomController {
     }
 
     @GetMapping("/edit")
-    public ModelAndView editRoomPost(@RequestParam("post-id") int postId) {
-        ModelAndView mav = new ModelAndView("post");
-        mav.addObject("post", newPostRepository.getNewPostByPostId(postId));
-        mav.addObject("roomTypeList", roomTypeRepository.getRoomTypeList());
-        return mav;
+    public ModelAndView editRoomPost(@RequestParam("post-id") int postId, HttpServletRequest request) {
+        Account account = (Account) request.getSession().getAttribute("LOGGED_IN_USER");
+        if (account.getRole().equals("ADMIN")) {
+            return new ModelAndView("redirect:/permissionError");
+        }
+
+        List<Integer> postIdList = roomPostRepository.getPostIdByUsername(account.getUsername());
+        if (postIdList.contains(postId)) {
+            ModelAndView mav = new ModelAndView("post");
+            mav.addObject("post", newPostRepository.getNewPostByPostId(postId));
+            mav.addObject("roomTypeList", roomTypeRepository.getRoomTypeList());
+            return mav;
+        }
+        return new ModelAndView("redirect:/");
     }
 
     @GetMapping("/delete")
@@ -110,18 +119,26 @@ public class RoomController {
                                  HttpServletRequest request, final RedirectAttributes redirectAttributes) {
         Account account = (Account) request.getSession().getAttribute("LOGGED_IN_USER");
         if (account.getRole().equals("ADMIN")) {
-            roomService.deleteRoomPost(postId);
+            try {
+                roomService.deleteRoomPost(postId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return "redirect:/admin/approve?page=" + page;
-        } else {
-            List<Integer> postIdList = roomPostRepository.getPostIdByUsername(account.getUsername());
-            if (postIdList.contains(postId)) {
+        }
+
+        List<Integer> postIdList = roomPostRepository.getPostIdByUsername(account.getUsername());
+        if (postIdList.contains(postId)) {
+            try {
                 roomService.deleteRoomPost(postId);
                 redirectAttributes.addFlashAttribute("message", "Deleted post successfully");
-            } else {
-                return "redirect:/";
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return "redirect:/customer-posts?user=" + account.getUsername() + "&page=" + page;
+        } else {
+            return "redirect:/";
         }
+        return "redirect:/customer-posts?user=" + account.getUsername() + "&page=" + page;
     }
 
     @GetMapping("/search")

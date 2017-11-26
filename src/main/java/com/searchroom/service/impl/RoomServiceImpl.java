@@ -114,7 +114,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteRoomPost(int postId) {
+    public void deleteRoomPost(int postId) throws Exception {
         int infoId = roomPostRepository.getInfoId(postId);
         int resourceId = resourceRepository.getId(infoId);
         int addressId = roomInfoRepository.getAddressId(infoId);

@@ -13,6 +13,6 @@ public interface RoomService {
     byte[] getImage(String imageName) throws IOException;
     void addRoom(NewPost newPost, HttpServletRequest request, Address address) throws SQLException;
     void updateRoom(NewPost newPost, Address address);
-    void deleteRoomPost(int postId);
+    void deleteRoomPost(int postId) throws Exception;
 
 }

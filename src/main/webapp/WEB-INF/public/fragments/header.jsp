@@ -35,7 +35,7 @@
                             <c:if test="${not empty LOGGED_IN_USER.username}">
                                 <c:if test="${LOGGED_IN_USER.role == \"CUSTOMER\"}">
                                     <li>
-                                        <a href="<c:url value="/rooms/update"/>" class="header-menu">
+                                        <a href="<c:url value="/rooms/add"/>" class="header-menu">
                                             <spring:message code="label.menu.post"/>
                                         </a>
                                     </li>

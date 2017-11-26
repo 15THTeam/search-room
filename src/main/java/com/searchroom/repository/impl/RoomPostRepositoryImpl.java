@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -22,7 +23,7 @@ public class RoomPostRepositoryImpl implements RoomPostRepository {
     }
 
     @Override
-    public void deleteRoomPost(int postId) {
+    public void deleteRoomPost(int postId) throws Exception {
         String sql = "delete from room_posts where post_id = ?";
         jdbcTemplate.update(sql, new Object[]{postId});
     }
