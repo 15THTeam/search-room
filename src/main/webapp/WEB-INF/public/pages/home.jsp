@@ -3,50 +3,102 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <script type="text/javascript"
-        src="http://maps.google.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc"></script>
+        src="http://maps.google.com/maps/api/js?key=AIzaSyBzTslru94FNhjKFbamfBIDgbjFZmYPgxc&v=3&libraries=geometry"></script>
 <div class="banner">
-    <div id="map" style="width: 100%; height: 100vh;"></div>
+    <div id="googleMap" style="width:100%; height:100vh;"></div>
     <script type="text/javascript">
+        let myCenter = new google.maps.LatLng(10.823099, 106.629664); // Sai Gon
+        let map;
+        let isDrawedCircle = false;
+        let circle = new google.maps.Circle();
+        let pickMarker = new google.maps.Marker();
+        let roomMarkers = [];
+        let locations = [];
+
         $(document).ready(() => {
             $.get('/get-markers', value => {
-                let locations = [];
-                console.log(value);
-
                 for (let i = 0; i < value.length; ++i) {
                     locations.push([value[i].title, value[i].latitude, value[i].longitude, value[i].postId]);
                 }
-
-                let map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 10,
-                    center: new google.maps.LatLng(10.8230989, 106.6296638),
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-
-                let infowindow = new google.maps.InfoWindow();
-
-                let marker, i;
-
-                for (i = 0; i < locations.length; i++) {
-                    marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                        map: map
-                    });
-
-                    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-                        return function() {
-                            infowindow.setContent(locations[i][0]);
-                            infowindow.open(map, marker);
-                        }
-                    })(marker, i));
-
-                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                        return function() {
-                            window.open('/detail?post-id=' + locations[i][3], '_blank');
-                        }
-                    })(marker, i));
-                }
             });
         });
+
+        function initialize() {
+            let mapProp = {
+                center: myCenter,
+                zoom: 10,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById('googleMap'), mapProp);
+
+            google.maps.event.addListener(map, 'click', function (event) {
+                if (isDrawedCircle) {
+                    circle.setMap(null);
+                    pickMarker.setMap(null);
+                    for (let i = 0; i < roomMarkers.length; ++i) {
+                        roomMarkers[i].setMap(null);
+                    }
+                }
+
+                let rad = prompt('<spring:message code="enter.radius"/> ');
+                if (isNaN(parseFloat(rad)))
+                    return;
+
+                circle = new google.maps.Circle({
+                    center: event.latLng,
+                    radius: parseFloat(rad),
+                    strokeColor: '#0000FF',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 1,
+                    fillColor: '0000FF',
+                    fillOpacity: 0.3
+                });
+                circle.setMap(map);
+
+                pickMarker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                    animation: google.maps.Animation.BOUNCE
+                });
+                pickMarker.setMap(map);
+
+                isDrawedCircle = true;
+
+                for (let i = 0; i < locations.length; i++) {
+                    let distance = google.maps.geometry.spherical.computeDistanceBetween(
+                        new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
+                        new google.maps.LatLng(locations[i][1], locations[i][2])
+                    );
+
+                    if (distance <= rad) {
+                        let marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                            map: map
+                        });
+
+                        let infowindow = new google.maps.InfoWindow();
+
+                        google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
+                            return function () {
+                                infowindow.setContent(locations[i][0]);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, i));
+
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                window.open('/detail?post-id=' + locations[i][3], '_blank');
+                            }
+                        })(marker, i));
+
+                        roomMarkers.push(marker);
+                    }
+                }
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 </div>
 <div class="features">
