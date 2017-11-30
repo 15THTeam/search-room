@@ -1,7 +1,9 @@
 package com.searchroom.controller.admin;
 
 import com.searchroom.model.entities.RoomType;
+import com.searchroom.model.join.RoomTypeWithPostAmount;
 import com.searchroom.repository.RoomTypeRepository;
+import com.searchroom.repository.RoomTypeWithPostAmountRepository;
 import com.searchroom.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,12 +19,15 @@ public class RoomTypeController {
     private RoomTypeRepository roomTypeRepository;
 
     @Autowired
+    private RoomTypeWithPostAmountRepository roomTypeWithPostAmountRepository;
+
+    @Autowired
     private AdminService adminService;
 
     @GetMapping("/room-type")
     public String showRoomTypeList(Model model) {
         model.addAttribute("roomType", new RoomType());
-        model.addAttribute("roomTypeList", roomTypeRepository.getRoomTypeList());
+        model.addAttribute("roomTypeList", roomTypeWithPostAmountRepository.getList());
         return "roomTypes";
     }
 
@@ -36,7 +41,7 @@ public class RoomTypeController {
     public ModelAndView editRoomType(@RequestParam("id") int id) {
         ModelAndView model = new ModelAndView("roomTypes");
         model.addObject("roomType", roomTypeRepository.getRoomTypeById(id));
-        model.addObject("roomTypeList", roomTypeRepository.getRoomTypeList());
+        model.addObject("roomTypeList", roomTypeWithPostAmountRepository.getList());
         return model;
     }
 
