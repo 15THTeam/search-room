@@ -16,16 +16,13 @@ public class ResourceRepositoryImpl implements ResourceRepository {
 
     public void addResource(Resource resource) {
         String sql = "insert into resources (file_name, room_info_id) values (?, ?)";
-        jdbcTemplate.update(sql, new Object[]{
-                resource.getFileName(),
-                resource.getRoomInfoId()
-        });
+        jdbcTemplate.update(sql, resource.getFileName(), resource.getRoomInfoId());
     }
 
     @Override
     public void deleteResource(int resourceId) {
         String sql = "delete from resources where resource_id = ?";
-        jdbcTemplate.update(sql, new Object[]{ resourceId });
+        jdbcTemplate.update(sql, resourceId);
     }
 
     @Override

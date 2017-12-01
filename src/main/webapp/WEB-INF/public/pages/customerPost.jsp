@@ -14,7 +14,7 @@
                             <spring:message code="no.post.title.head"/>
                             <br/>
                             <spring:message code="label.click"/>
-                            <a href="<c:url value="/rooms/update"/>"><spring:message code="label.here"/> </a>
+                            <a href="<c:url value="/rooms/add"/>"><spring:message code="label.here"/> </a>
                             <spring:message code="no.post.title.tail"/>
                         </h3>
                     </c:when>

@@ -76,7 +76,10 @@
                             <c:if test="${post.postId == 0}">
                                 <div>
                                     <span><spring:message code="label.image"/></span>
-                                    <input type="file" name="files"/>
+                                    <input type="file" name="files" id="upload"/>
+                                </div>
+                                <div id="required-image" class="error">
+                                    <spring:message code="required.image"/>
                                 </div>
                             </c:if>
                             <div class="clear"></div>
@@ -100,20 +103,21 @@
         $('#invalid-address-length').hide();
         $('#invalid-area').hide();
         $('#invalid-price').hide();
+        $('#required-image').hide();
     });
 
     function validateForm() {
         let isValid;
 
-        let txtTitle = $("#title");
-        let txtAddress = $("#address");
-        let txtPrice = $("#price");
-        let txtDescription = $("#description");
+        let txtTitle = $('#title');
+        let txtAddress = $('#address');
+        let txtPrice = $('#price');
+        let txtDescription = $('#description');
 
-        let errTitle = $("#required-title");
-        let errAddress = $("#required-address");
-        let errPrice = $("#required-price");
-        let errDescription = $("#required-description");
+        let errTitle = $('#required-title');
+        let errAddress = $('#required-address');
+        let errPrice = $('#required-price');
+        let errDescription = $('#required-description');
 
         let invalidTitleLength = $('#invalid-title-length');
         let invalidAddressLength = $('#invalid-address-length');
@@ -148,7 +152,7 @@
             }
         }
 
-        if ($("#area").val() <= 0) {
+        if ($('#area').val() <= 0) {
             invalidArea.show();
             isValid = false;
         } else {
@@ -175,6 +179,14 @@
             isValid = false;
         } else {
             errDescription.hide();
+            isValid = true;
+        }
+
+        if ($('#upload')[0].files.length === 0) {
+            $('#required-image').show();
+            isValid = false;
+        } else {
+            $('#required-image').hide();
         }
 
         return isValid;
