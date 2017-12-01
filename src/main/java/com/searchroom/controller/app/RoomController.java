@@ -45,7 +45,7 @@ public class RoomController {
     private RoomPostRepository roomPostRepository;
 
     @GetMapping
-    public ModelAndView showPagedPost(@RequestParam("page") int pageNumber) {
+    public ModelAndView showRoomsPage(@RequestParam("page") int pageNumber) {
         final int ROOMS_PER_PAGE = 8;
 
         ModelAndView model = new ModelAndView("rooms");
@@ -56,7 +56,7 @@ public class RoomController {
     }
 
     @GetMapping("/add")
-    public ModelAndView showPostPage(HttpServletRequest request) {
+    public ModelAndView showAddRoomPage(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("post");
 
         Account loggedInUser = (Account) request.getSession().getAttribute("LOGGED_IN_USER");

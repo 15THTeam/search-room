@@ -12,13 +12,13 @@ public class PaginationServiceImpl implements PaginationService {
     private RoomPostRepository roomPostRepository;
 
     @Override
-    public double calculatePageAmount(int roomPerPage) {
-        return Math.ceil(roomPostRepository.getPostAmount() * 1.0 / roomPerPage);
+    public int calculatePageAmount(int roomPerPage) {
+        return (int) Math.ceil(roomPostRepository.getPostAmount() * 1.0 / roomPerPage);
     }
 
     @Override
-    public double calculatePageCustomerPost(int customerId, int roomPerPage) {
-        return Math.ceil(roomPostRepository.getPostAmountByCustomer(customerId) * 1.0 / roomPerPage);
+    public int calculatePageCustomerPost(int customerId, int roomPerPage) {
+        return (int) Math.ceil(roomPostRepository.getPostAmountByCustomer(customerId) * 1.0 / roomPerPage);
     }
 
 }
