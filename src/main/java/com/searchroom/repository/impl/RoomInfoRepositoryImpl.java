@@ -49,14 +49,14 @@ public class RoomInfoRepositoryImpl implements RoomInfoRepository {
     @Override
     public void updateRoomInfo(RoomInfo roomInfo) {
         String sql = "update room_infos set type_id = ?, area = ?, price = ?, description = ?, title = ? where info_id = ?";
-        jdbcTemplate.update(sql, new Object[]{roomInfo.getTypeId(), roomInfo.getArea(),
-                roomInfo.getPrice(), roomInfo.getDescription(), roomInfo.getTitle(), roomInfo.getId()});
+        jdbcTemplate.update(sql, roomInfo.getTypeId(), roomInfo.getArea(),
+                roomInfo.getPrice(), roomInfo.getDescription(), roomInfo.getTitle(), roomInfo.getId());
     }
 
     @Override
     public void deleteRoomInfo(int infoId) {
         String sql = "delete from room_infos where info_id = ?";
-        jdbcTemplate.update(sql, new Object[]{infoId});
+        jdbcTemplate.update(sql, infoId);
     }
 
 }

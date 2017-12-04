@@ -56,15 +56,21 @@ public class RoomServiceImpl implements RoomService {
             multipartFile = (CommonsMultipartFile) multipartRequest.getFile(key);
             fileName = multipartFile.getOriginalFilename();
 
-            createUserImagesDirIfNeeded();
-            createImage(fileName, multipartFile);
+            if (!"".equals(fileName)) {
+                createUserImagesDirIfNeeded();
+                createImage(fileName, multipartFile);
+            }
         }
         return fileName;
     }
 
     private void createUserImagesDirIfNeeded() {
         if (!USER_IMAGES_DIR.exists()) {
-            USER_IMAGES_DIR.mkdirs();
+            if (USER_IMAGES_DIR.mkdirs()) {
+                System.out.println("Directory has been created successfully");
+            } else {
+                System.out.println("Directory hasn't been created");
+            }
         }
     }
 
@@ -117,7 +123,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void updateRoom(NewPost newPost, Address address) {
+    public void updateRoom(NewPost newPost, HttpServletRequest request, Address address) throws SQLException {
         int roomInfoId = roomPostRepository.getInfoId(newPost.getPostId());
         RoomInfo info = new RoomInfo(roomInfoId, newPost.getTitle(), newPost.getArea(), newPost.getPrice(),
                 newPost.getDescription(), newPost.getTypeId());
@@ -125,6 +131,13 @@ public class RoomServiceImpl implements RoomService {
 
         address.setId(roomInfoRepository.getAddressId(roomInfoId));
         addressRepository.updateAddress(address);
+
+        String fileName = this.uploadFile(request);
+        if (!"".equals(fileName)) {
+            int resourceId = resourceRepository.getId(roomInfoId);
+            this.deleteImage(resourceRepository.getImageNameById(resourceId));
+            resourceRepository.updateResource(fileName, resourceId);
+        }
     }
 
     @Override

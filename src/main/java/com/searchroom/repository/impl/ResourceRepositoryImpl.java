@@ -20,6 +20,12 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     }
 
     @Override
+    public void updateResource(String imageName, int resourceId) {
+        String sql = "update resources set file_name = ? where resource_id = ?";
+        jdbcTemplate.update(sql, imageName, resourceId);
+    }
+
+    @Override
     public void deleteResource(int resourceId) {
         String sql = "delete from resources where resource_id = ?";
         jdbcTemplate.update(sql, resourceId);

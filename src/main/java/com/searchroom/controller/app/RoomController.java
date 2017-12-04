@@ -90,7 +90,7 @@ public class RoomController {
             roomService.addRoom(newPost, request, addressObject);
             mav.addObject("message", "Add new room succeed");
         } else {
-            roomService.updateRoom(newPost, addressObject);
+            roomService.updateRoom(newPost, request, addressObject);
             mav.addObject("message", "Update succeed");
         }
 
