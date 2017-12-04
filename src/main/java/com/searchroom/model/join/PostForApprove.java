@@ -3,16 +3,16 @@ package com.searchroom.model.join;
 public class PostForApprove {
 
     private int id;
-    private String fullName;
+    private String username;
     private String createdAt;
     private boolean isApproved;
 
     public PostForApprove() {
     }
 
-    public PostForApprove(int id, String fullName, String createdAt, boolean isApproved) {
+    public PostForApprove(int id, String username, String createdAt, boolean isApproved) {
         this.id = id;
-        this.fullName = fullName;
+        this.username = username;
         this.createdAt = createdAt;
         this.isApproved = isApproved;
     }
@@ -25,12 +25,12 @@ public class PostForApprove {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getCreatedAt() {

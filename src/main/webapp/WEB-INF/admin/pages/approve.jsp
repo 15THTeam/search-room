@@ -16,7 +16,7 @@
                         <thead>
                         <tr>
                             <th><spring:message code="label.no"/></th>
-                            <th><spring:message code="label.customer"/></th>
+                            <th><spring:message code="label.username"/></th>
                             <th><spring:message code="label.updated.at"/></th>
                             <th><spring:message code="label.is.approve"/></th>
                             <th><spring:message code="label.detail"/></th>
@@ -32,7 +32,7 @@
                         <c:forEach items="${postList}" var="post">
                             <tr>
                                 <th scope="row"><%= count++ %></th>
-                                <td>${post.fullName}</td>
+                                <td>${post.username}</td>
                                 <td>${post.createdAt}</td>
                                 <td align="center">
                                     <c:if test="${post.isApproved() == true}">
