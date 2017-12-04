@@ -45,22 +45,21 @@ public class RoomServiceImpl implements RoomService {
     private static final File USER_IMAGES_DIR = new File(USER_IMAGES_PATH);
     private static final String USER_IMAGES_DIR_ABSOLUTE_PATH = USER_IMAGES_DIR.getAbsolutePath() + File.separator;
 
-    public void uploadFile(HttpServletRequest request, int roomInfoId) throws SQLException {
+    private String uploadFile(HttpServletRequest request) throws SQLException {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         CommonsMultipartFile multipartFile;
 
         Iterator<String> iterator = multipartRequest.getFileNames();
+        String fileName = "";
         while (iterator.hasNext()) {
             String key = iterator.next();
             multipartFile = (CommonsMultipartFile) multipartRequest.getFile(key);
-            String fileName = multipartFile.getOriginalFilename();
-
-            Resource resource = new Resource(fileName, roomInfoId);
-            resourceRepository.addResource(resource);
+            fileName = multipartFile.getOriginalFilename();
 
             createUserImagesDirIfNeeded();
             createImage(fileName, multipartFile);
         }
+        return fileName;
     }
 
     private void createUserImagesDirIfNeeded() {
@@ -75,6 +74,19 @@ public class RoomServiceImpl implements RoomService {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(image));
             stream.write(file.getBytes());
             stream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteImage(String name) {
+        try {
+            File image = new File(USER_IMAGES_DIR_ABSOLUTE_PATH + name);
+            if (image.delete()) {
+                System.out.println(image.getName() + " is deleted!");
+            } else {
+                System.out.println("Delete operator is failed");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,7 +111,9 @@ public class RoomServiceImpl implements RoomService {
         RoomPost roomPost = new RoomPost(customer.getId(), roomInfoId);
         roomPostRepository.addRoomPost(roomPost);
 
-        this.uploadFile(request, roomInfoId);
+        String fileName = this.uploadFile(request);
+        Resource resource = new Resource(fileName, roomInfoId);
+        resourceRepository.addResource(resource);
     }
 
     @Override
@@ -118,6 +132,8 @@ public class RoomServiceImpl implements RoomService {
         int infoId = roomPostRepository.getInfoId(postId);
         int resourceId = resourceRepository.getId(infoId);
         int addressId = roomInfoRepository.getAddressId(infoId);
+
+        this.deleteImage(resourceRepository.getImageNameById(resourceId));
 
         resourceRepository.deleteResource(resourceId);
         roomPostRepository.deleteRoomPost(postId);

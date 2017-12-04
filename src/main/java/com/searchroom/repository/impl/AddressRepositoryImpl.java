@@ -36,14 +36,14 @@ public class AddressRepositoryImpl implements AddressRepository {
     @Override
     public void updateAddress(Address address) {
         String sql = "update addresses set latitude = ?, longitude = ?, address = ? where address_id = ?";
-        jdbcTemplate.update(sql, new Object[]{address.getLatitude(), address.getLongitude(),
-                address.getAddress(), address.getId()});
+        jdbcTemplate.update(sql, address.getLatitude(), address.getLongitude(),
+                address.getAddress(), address.getId());
     }
 
     @Override
     public void deleteAddress(int addressId) {
         String sql = "delete from addresses where address_id = ?";
-        jdbcTemplate.update(sql, new Object[]{addressId});
+        jdbcTemplate.update(sql, addressId);
     }
 
 }

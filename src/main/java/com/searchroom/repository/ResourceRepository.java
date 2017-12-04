@@ -7,5 +7,6 @@ public interface ResourceRepository {
     void addResource(Resource resource);
     void deleteResource(int resourceId);
     int getId(int infoId);
+    String getImageNameById(int resourceId);
 
 }

@@ -31,4 +31,10 @@ public class ResourceRepositoryImpl implements ResourceRepository {
         return jdbcTemplate.queryForObject(sql, new Object[] {infoId}, Integer.class);
     }
 
+    @Override
+    public String getImageNameById(int resourceId) {
+        String sql = "select file_name from resources where resource_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[] {resourceId}, String.class);
+    }
+
 }
