@@ -24,7 +24,7 @@
                                 <a href="<c:url value="/detail?post-id=${post.postId}"/>">
                                     <c:choose>
                                         <c:when test="${empty post.image}">
-                                            <img src="<c:url value="/image/no-image"/>" class="img-responsive" style="height: 196px;"/>
+                                            <img src="<c:url value="/image/no-image.jpg"/>" class="img-responsive" style="height: 196px;"/>
                                         </c:when>
                                         <c:otherwise>
                                             <img src="/image/${post.image}" class="img-responsive" style="height: 196px;"/>

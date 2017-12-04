@@ -76,6 +76,9 @@
                             <div>
                                 <span><spring:message code="label.image"/></span>
                                 <input type="file" name="files" id="upload"/>
+                                <div id="valid-file-extension" class="error">
+                                    <spring:message code="invalid.file.extension"/>
+                                </div>
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -98,6 +101,19 @@
         $('#invalid-address-length').hide();
         $('#invalid-area').hide();
         $('#invalid-price').hide();
+        $('#valid-file-extension').hide();
+
+        $('input[type=file]').change(function () {
+            let val = $(this).val().toLowerCase(),
+                regex = new RegExp("(.*?)\.(jpg|jpeg|png)$");
+
+            if (!(regex.test(val))) {
+                $(this).val('');
+                $('#valid-file-extension').show();
+            } else {
+                $('#valid-file-extension').hide();
+            }
+        });
     });
 
     function validateForm() {

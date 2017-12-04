@@ -100,8 +100,8 @@
                                 <a href="#">
                                     <c:choose>
                                         <c:when test="${empty postDetail.image}">
-                                            <img class="etalage_thumb_image" src="<c:url value="/image/no-image"/>"/>
-                                            <img class="etalage_source_image" src="<c:url value="/image/no-image"/>"/>
+                                            <img class="etalage_thumb_image" src="<c:url value="/image/no-image.jpg"/>"/>
+                                            <img class="etalage_source_image" src="<c:url value="/image/no-image.jpg"/>"/>
                                         </c:when>
                                         <c:otherwise>
                                             <img class="etalage_thumb_image" src="/image/${postDetail.image}"/>

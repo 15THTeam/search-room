@@ -38,10 +38,10 @@ public class HomeController {
         return postOnMapRepository.getPostToMap();
     }
 
-    @GetMapping("/image/{imageName}")
-    @ResponseBody
-    public byte[] getImage(@PathVariable(value = "imageName")String imageName) throws IOException {
-        return roomService.getImage(imageName);
+    @GetMapping("/image/{image-name}.{ext}")
+    public @ResponseBody byte[] getImage(@PathVariable(value = "image-name")String imageName,
+                                         @PathVariable(value = "ext") String extension) throws IOException {
+        return roomService.getImage(imageName + "." + extension);
     }
 
 }

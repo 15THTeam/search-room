@@ -82,7 +82,7 @@ public class RoomServiceImpl implements RoomService {
 
     public byte[] getImage(String imageName) throws IOException {
         createUserImagesDirIfNeeded();
-        File serverFile = new File(USER_IMAGES_DIR_ABSOLUTE_PATH + imageName + ".jpg");
+        File serverFile = new File(USER_IMAGES_DIR_ABSOLUTE_PATH + imageName);
         return Files.readAllBytes(serverFile.toPath());
     }
 
