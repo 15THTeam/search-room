@@ -110,7 +110,14 @@
                 <div class="col-md-3 top_box home-post">
                     <div class="view view-ninth">
                         <a href="<c:url value="/detail?post-id=${postNews.postId}"/>">
-                            <img src="/image/${postNews.image}" class="img-responsive" style="height: 196px;"/>
+                            <c:choose>
+                                <c:when test="${empty postNews.image}">
+                                    <img src="<c:url value="/image/no-image"/>" class="img-responsive" style="height: 196px;"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="/image/${postNews.image}" class="img-responsive" style="height: 196px;"/>
+                                </c:otherwise>
+                            </c:choose>
                             <div class="mask mask-1"></div>
                             <div class="mask mask-2"></div>
                             <div class="content">

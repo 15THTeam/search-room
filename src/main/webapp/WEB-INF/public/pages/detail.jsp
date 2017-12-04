@@ -98,8 +98,16 @@
                         <ul id="etalage">
                             <li>
                                 <a href="#">
-                                    <img class="etalage_thumb_image" src="/image/${postDetail.image}"/>
-                                    <img class="etalage_source_image" src="/image/${postDetail.image}"/>
+                                    <c:choose>
+                                        <c:when test="${empty postDetail.image}">
+                                            <img class="etalage_thumb_image" src="<c:url value="/image/no-image"/>"/>
+                                            <img class="etalage_source_image" src="<c:url value="/image/no-image"/>"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img class="etalage_thumb_image" src="/image/${postDetail.image}"/>
+                                            <img class="etalage_source_image" src="/image/${postDetail.image}"/>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </a>
                             </li>
                         </ul>

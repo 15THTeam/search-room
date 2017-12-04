@@ -11,7 +11,14 @@
                 <c:forEach items="${postList}" var="post">
                     <div class="col-md-3 shop_box">
                         <a href="<c:url value="/detail?post-id=${post.postId}"/>">
-                            <img src="/image/${post.image}" class="img-responsive" style="height: 196px;"/>
+                            <c:choose>
+                                <c:when test="${empty post.image}">
+                                    <img src="<c:url value="/image/no-image"/>" class="img-responsive" style="height: 196px;"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="/image/${post.image}" class="img-responsive" style="height: 196px;"/>
+                                </c:otherwise>
+                            </c:choose>
                         </a>
                         <c:if test="${post.isApproved() == true}">
                             <span class="new-box">

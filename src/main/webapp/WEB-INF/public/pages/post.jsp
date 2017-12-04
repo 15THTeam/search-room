@@ -73,15 +73,10 @@
                                     <spring:message code="required.description"/>
                                 </div>
                             </div>
-                            <c:if test="${post.postId == 0}">
-                                <div>
-                                    <span><spring:message code="label.image"/></span>
-                                    <input type="file" name="files" id="upload"/>
-                                </div>
-                                <div id="required-image" class="error">
-                                    <spring:message code="required.image"/>
-                                </div>
-                            </c:if>
+                            <div>
+                                <span><spring:message code="label.image"/></span>
+                                <input type="file" name="files" id="upload"/>
+                            </div>
                             <div class="clear"></div>
                         </div>
                         <div class="clear"></div>
@@ -103,7 +98,6 @@
         $('#invalid-address-length').hide();
         $('#invalid-area').hide();
         $('#invalid-price').hide();
-        $('#required-image').hide();
     });
 
     function validateForm() {
@@ -180,13 +174,6 @@
         } else {
             errDescription.hide();
             isValid = true;
-        }
-
-        if ($('#upload')[0].files.length === 0) {
-            $('#required-image').show();
-            isValid = false;
-        } else {
-            $('#required-image').hide();
         }
 
         return isValid;
