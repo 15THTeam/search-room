@@ -22,7 +22,7 @@ public class RoomTypeWithPostAmountRepositoryImpl implements RoomTypeWithPostAmo
                 + "from room_types t "
                 + "left join room_infos i "
                 + "on i.type_id = t.type_id "
-                + "group by i.type_id";
+                + "group by t.type_id";
         return jdbcTemplate.query(sql, (resultSet, i) -> {
             int id = resultSet.getInt("type_id");
             String description = resultSet.getString("description");
